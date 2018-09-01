@@ -1,6 +1,6 @@
 # Building Mobile Applications with React Native & AWS Amplify
 
-In this workshop we'll learn how to build cloud-enabled web applications with React Native & [AWS Amplify](https://aws-amplify.github.io/).
+In this workshop we'll learn how to build cloud-enabled mobile applications with React Native & [AWS Amplify](https://aws-amplify.github.io/).
 
 ![](https://imgur.com/IPnnJyf.jpg)
 
