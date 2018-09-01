@@ -6,13 +6,12 @@ In this workshop we'll learn how to build cloud-enabled web applications with Re
 
 ### Topics we'll be covering:
 
-- [Authentication](https://github.com/dabit3/aws-amplify-workshop-web#adding-authentication)
-- [GraphQL API with AWS AppSync](https://github.com/dabit3/aws-amplify-workshop-web#adding-a-rest-api)
-- [REST API with a Lambda Function](https://github.com/dabit3/aws-amplify-workshop-web#adding-a-graphql-api)
-- [Adding Storage with Amazon S3](https://github.com/dabit3/aws-amplify-workshop-web#working-with-storage)
-- [Hosting](https://github.com/dabit3/aws-amplify-workshop-web#hosting)
-- [Analytics](https://github.com/dabit3/aws-amplify-workshop-web#adding-analytics)
-- [Removing / Deleting Services](https://github.com/dabit3/aws-amplify-workshop-web#removing-services)
+- [Authentication](https://github.com/dabit3/aws-amplify-workshop-react-native#adding-authentication)
+- [GraphQL API with AWS AppSync](https://github.com/dabit3/aws-amplify-workshop-react-native#adding-a-rest-api)
+- [REST API with a Lambda Function](https://github.com/dabit3/aws-amplify-workshop-react-native#adding-a-graphql-api)
+- [Adding Storage with Amazon S3](https://github.com/dabit3/aws-amplify-workshop-react-native#working-with-storage)
+- [Analytics](https://github.com/dabit3/aws-amplify-workshop-react-native#adding-analytics)
+- [Removing / Deleting Services](https://github.com/dabit3/aws-amplify-workshop-react-native#removing-services)
 
 ## Redeeming our AWS Credit   
 
@@ -22,30 +21,32 @@ In this workshop we'll learn how to build cloud-enabled web applications with Re
 3. In the left menu, click __Credits__.
 ![](dashboard2.jpg)
 
-## Getting Started - Creating the React Application
+## Getting Started - Creating the React Native Application
 
-To get started, we first need to create a new React project & change into the new directory using the [Create React App CLI](https://github.com/facebook/create-react-app).
+To get started, we first need to create a new React Native project & change into the new directory using the [React Native CLI](https://facebook.github.io/react-native/docs/getting-started.html) (__Building Projects With Native Code__.
 
-If you already have this installed, skip to the next step. If not, either install the CLI & create the app or create a new app using npx:
-
-```bash
-npm install -g create-react-app
-create-react-app my-amplify-app
-```
-
-Or use npx (npm 5.2 & later) to create a new app:
+If you already have this installed, skip to the next step. If not, either install the CLI & create the app:
 
 ```bash
-npx create-react-app my-amplify-app
+npm install -g react-native-cli
+
+react-native init AmplifyApp
 ```
 
 Now change into the new app directory & install the AWS Amplify & AWS Amplify React libraries:
 
 ```bash
-cd my-amplify-app
-npm install --save aws-amplify aws-amplify-react
+cd AmplifyApp
+npm install --save aws-amplify aws-amplify-react react-native-vector-icons
 # or
 yarn add aws-amplify aws-amplify-react
+```
+
+Finally, we need to link two native libraries:
+
+```sh
+react-native link react-native-vector-icons
+react-native link amazon-cognito-identity-js
 ```
 
 ## Installing the CLI & Initializing a new AWS Amplify Project
@@ -176,15 +177,15 @@ state = {
 }
 
 // event handler
-onChange = (event) => {
-  this.setState({ [event.target.name]: event.target.value })
+onChangeText = (key, value) => {
+  this.setState({ [key]: value })
 }
 
 // example of usage with input
-<input
-  name='username'
+<TextInput
   placeholder='username'
-  onChange={this.onChange}
+  value={this.state.username}
+  onChangeText={v => this.onChange('username', v)}
 />
 ```
 
@@ -300,6 +301,12 @@ To do so, we need to define the query, execute the query, store the data in our 
 
 
 ```js
+// additional react native imports
+import {
+  // ...existing imports,
+  TextInput
+} from 'react-native'
+
 // imports from Amplify library
 import { API, graphqlOperation } from 'aws-amplify'
 
@@ -337,10 +344,10 @@ async componentDidMount() {
 // add UI in render method to show data
   {
     this.state.pets.map((pet, index) => (
-      <div key={index}>
-        <h3>{pet.name}</h3>
-        <p>{pet.description}</p>
-      </div>
+      <View key={index}>
+        <Text>{pet.name}</Text>
+        <Text>{pet.description}</Text>
+      </View>
     ))
   }
 ```
@@ -350,6 +357,12 @@ async componentDidMount() {
  Now, let's look at how we can create mutations.
 
 ```js
+// additional imports
+import {
+  // ...existing imports
+  TextInput, Button
+} from 'react-native'
+
 import { graphqlOperation, API } from 'aws-amplify'
 
 // define the new mutation
@@ -400,24 +413,20 @@ createPet = async() => {
 }
 
 // change state then user types into input
-onChange = (event) => {
-  this.setState({
-    [event.target.name]: event.target.value
-  })
+onChange = (key, value) => {
+  this.setState({ [key]: value })
 }
 
 // add UI with event handlers to manage user input
-<input
-  name='name'
-  onChange={this.onChange}
+<TextInput
+  onChange={v => this.onChange('name', v)}
   value={this.state.name}
 />
-<input
-  name='description'
-  onChange={this.onChange}
+<TextInput
+  onChange={v => this.onChange('description', v)}
   value={this.state.description}
 />
-<button onClick={this.createPet}>Create Pet</button>
+<Button onPress={this.createPet} title='Create Pet' />
 ```
 
 ### GraphQL Subscriptions
@@ -524,7 +533,7 @@ getData = async() => {
 // implement into render method
 {
   this.state.pets.map((p, i) => (
-    <p key={i}>{p}</p>
+    <Text key={i}>{p}</Text>
   ))
 }
 ```
@@ -629,7 +638,7 @@ addToStorage = () => {
 }
 
 // add click handler
-<button onClick={this.addToStorage}>Add To Storage</button>
+<Button onPress={this.addToStorage} title='Add to Storage' />
 ```
 
 This would create a folder called `javascript` in our S3 bucket & store a file called __MyReactComponent.js__ there with the code we specified in the second argument of `Storage.put`.
@@ -662,52 +671,6 @@ readFromStorage = () => {
     .then(data => console.log('data from S3: ', data))
     .catch(err => console.log('error'))
 }
-```
-
-### Working with images
-
-Working with images is also easy:
-
-```js
-class S3ImageUpload extends React.Component {
-  onChange(e) {
-      const file = e.target.files[0];
-      Storage.put('example.png', file, {
-          contentType: 'image/png'
-      })
-      .then (result => console.log(result))
-      .catch(err => console.log(err));
-  }
-
-  render() {
-      return (
-          <input
-              type="file" accept='image/png'
-              onChange={(e) => this.onChange(e)}
-          />
-      )
-  }
-}
-
-```
-
-## Hosting
-
-To deploy & host your app on AWS, we can use the `hosting` category.
-
-```sh
-amplify add hosting
-```
-
-- Select the environment setup: __DEV (S3 only with HTTP)__
-- hosting bucket name __YOURBUCKETNAME__
-- index doc for the website __index.html__
-- error doc for the website __index.html__
-
-Now, everything is set up & we can publish it:
-
-```sh
-amplify publish
 ```
 
 ## Adding Analytics
@@ -753,7 +716,7 @@ recordEvent = () => {
   })
 }
 
-<button onClick={this.recordEvent}>Record Event</button>
+<Button onPress={this.recordEvent} title='Record Event' />
 ```
 
 ## Removing Services
