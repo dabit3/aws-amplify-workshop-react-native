@@ -23,7 +23,7 @@ In this workshop we'll learn how to build cloud-enabled mobile applications with
 
 ## Getting Started - Creating the React Native Application
 
-To get started, we first need to create a new React Native project & change into the new directory using the [React Native CLI](https://facebook.github.io/react-native/docs/getting-started.html). __(See Building Projects With Native Code)__.
+To get started, we first need to create a new React Native project & change into the new directory using the [React Native CLI](https://facebook.github.io/react-native/docs/getting-started.html). (See __Building Projects With Native Code__ in the documentation)
 
 If you already have this installed, skip to the next step. If not, either install the CLI & create the app:
 
