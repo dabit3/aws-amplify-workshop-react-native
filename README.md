@@ -68,7 +68,7 @@ amplify configure
 > If you'd like to see a video walkthrough of this configuration process, click [here](https://www.youtube.com/watch?v=fWbM5DLh25U).
 
 Here we'll walk through the `amplify configure` setup. Once you've signed in to the AWS console, continue:
-- Specify the AWS Region: __eu-central-1, us-east-1 , or region closest to you__.
+- Specify the AWS Region: __eu-central-1, us-east-1 , or region closest to you__
 - Specify the username of the new IAM user: __amplify-workshop-user__
 > In the AWS Console, click __Next: Permissions__, __Next: Review__, & __Create User__ to create the new IAM user. Then, return to the command line & press Enter.
 - Enter the access key of the newly created user:   
@@ -84,7 +84,7 @@ amplify init
 
 - Choose your default editor: __Visual Studio Code (or your default editor)__   
 - Please choose the type of app that you're building __javascript__   
-- What javascript framework are you using __react__   
+- What javascript framework are you using __react-native__   
 - Source Directory Path: __src__   
 - Distribution Directory Path: __build__   
 - Build Command: __npm run-script build__   
