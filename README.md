@@ -33,13 +33,13 @@ npm install -g react-native-cli
 react-native init AmplifyApp
 ```
 
-Now change into the new app directory & install the AWS Amplify & AWS Amplify React libraries:
+Now change into the new app directory & install the AWS Amplify, AWS Amplify React Native, & React Native Vector Icon libraries:
 
 ```bash
 cd AmplifyApp
-npm install --save aws-amplify aws-amplify-react react-native-vector-icons
+npm install --save aws-amplify aws-amplify-react-native react-native-vector-icons
 # or
-yarn add aws-amplify aws-amplify-react
+yarn add aws-amplify aws-amplify-react-native react-native-vector-icons
 ```
 
 Finally, we need to link two native libraries:
@@ -68,7 +68,7 @@ amplify configure
 > If you'd like to see a video walkthrough of this configuration process, click [here](https://www.youtube.com/watch?v=fWbM5DLh25U).
 
 Here we'll walk through the `amplify configure` setup. Once you've signed in to the AWS console, continue:
-- Specify the AWS Region: __us-east-1__
+- Specify the AWS Region: __eu-central-1, us-east-1 , or region closest to you__.
 - Specify the username of the new IAM user: __amplify-workshop-user__
 > In the AWS Console, click __Next: Permissions__, __Next: Review__, & __Create User__ to create the new IAM user. Then, return to the command line & press Enter.
 - Enter the access key of the newly created user:   
