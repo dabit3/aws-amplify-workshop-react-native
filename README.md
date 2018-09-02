@@ -151,7 +151,7 @@ Now, we can run the app and see that an Authentication flow has been added in fr
 
 We can sign the user out using the `Auth` class & calling `Auth.signOut()`. This function returns a promise that is fulfilled after the user session has been ended & AsyncStorage is updated.
 
-Because `withAuthenticator` holds all of the state within the actual component, we must have a way to rerender the actualy withAuthenticator component by forcing React to rerender the parent component.
+Because `withAuthenticator` holds all of the state within the actual component, we must have a way to rerender the actual `withAuthenticator` component by forcing React to rerender the parent component.
 
 To do so, let's make a few updates:
 
@@ -493,8 +493,14 @@ API.graphql(
     next: (eventData) => {
       console.log('eventData', eventData)
       const pet = eventData.value.data.onCreatePet
-      const pets = [...this.state.pets, pet]
-      pets.filter(item => item.id !== pet.id)
+      const pets = [
+        ...this.state.pets.filter(p => {
+          const val1 = p.name + p.description
+          const val2 = onCreatePet.name + onCreatePet.description
+          return val1 !== val2
+        }),
+        pet
+      ]
       this.setState({ pets })
     }
 });
