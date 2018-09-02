@@ -25,7 +25,7 @@ In this workshop we'll learn how to build cloud-enabled mobile applications with
 
 To get started, we first need to create a new React Native project & change into the new directory using the [React Native CLI](https://facebook.github.io/react-native/docs/getting-started.html). (See __Building Projects With Native Code__ in the documentation)
 
-If you already have this installed, go ahead and create a new React Native app. If not, install the CLI & create a new app:
+If you already have the CLI installed, go ahead and create a new React Native app. If not, install the CLI & create a new app:
 
 ```bash
 npm install -g react-native-cli
@@ -85,7 +85,7 @@ amplify init
 - Choose your default editor: __Visual Studio Code (or your default editor)__   
 - Please choose the type of app that you're building __javascript__   
 - What javascript framework are you using __react-native__   
-- Source Directory Path: __src__   
+- Source Directory Path:    
 - Distribution Directory Path: __build__   
 - Build Command: __npm run-script build__   
 - Start Command: __npm run-script start__   
