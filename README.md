@@ -82,10 +82,10 @@ Here we'll walk through the `amplify configure` setup. Once you've signed in to 
 amplify init
 ```
 
-- Choose your default editor: __Visual Studio Code (or your default editor)__   
+- Choose your default editor: __Visual Studio Code (or your favorite editor)__   
 - Please choose the type of app that you're building __javascript__   
 - What javascript framework are you using __react-native__   
-- Source Directory Path:    
+- Source Directory Path: /    
 - Distribution Directory Path: __build__   
 - Build Command: __npm run-script build__   
 - Start Command: __npm run-script start__   
