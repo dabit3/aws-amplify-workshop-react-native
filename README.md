@@ -147,6 +147,47 @@ Now, we can run the app and see that an Authentication flow has been added in fr
 
 > To view the new user that was created in Cognito, go back to the dashboard at [https://console.aws.amazon.com/cognito/](https://console.aws.amazon.com/cognito/). Also be sure that your region is set correctly.
 
+### Signing out the user using the witAuthenticator HOC
+
+We can sign the user out using the `Auth` class & calling `Auth.signOut()`. This function returns a promise that is fulfilled after the user session has been ended & AsyncStorage is updated.
+
+Because `withAuthenticator` holds all of the state within the actual component, we must have a way to rerender the actualy withAuthenticator component by forcing React to rerender the parent component.
+
+To do so, let's make a few updates:
+
+```js
+// index.js
+class AuthWrapper extends React.Component {
+  rerender = () => this.forceUpdate()
+  render() {
+    return <App rerender={this.rerender} />
+  }
+}
+
+AppRegistry.registerComponent(appName, () => AuthWrapper);
+
+// App.js
+class App extends Component {
+  signOut = async () => {
+    await Auth.signOut()
+    this.props.rerender()
+  }
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>Welcome to React Native!</Text>
+        <Text onPress={this.signOut} style={styles.instructions}>Sign Out</Text>
+      </View>
+    );
+  }
+}
+
+export default props =>  {
+  const AppComponent = withAuthenticator(App)
+  return <AppComponent {...props} />
+}
+```
+
 ### Accessing User Data
 
 We can access the user's info now that they are signed in by calling `Auth.currentAuthenticatedUser()`.
