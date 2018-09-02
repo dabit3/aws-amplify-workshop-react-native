@@ -113,13 +113,13 @@ amplify push
 
 > To view the new Cognito authentication service at any time after its creation, go to the dashboard at [https://console.aws.amazon.com/cognito/](https://console.aws.amazon.com/cognito/). Also be sure that your region is set correctly.
 
-### Configuring the React applicaion
+### Configuring the React Native applicaion
 
 Now, our resources are created & we can start using them!
 
-The first thing we need to do is to configure our React application to be aware of our new AWS Amplify project. We can do this by referencing the auto-generated `aws-exports.js` file that is now in our src folder.
+The first thing we need to do is to configure our React application to be aware of our new AWS Amplify project. We can do this by referencing the auto-generated `aws-exports.js` file that is now in our root folder.
 
-To configure the app, open __src/index.js__ and add the following code below the last import:
+To configure the app, open __index.js__ and add the following code below the last import:
 
 ```js
 import Amplify from 'aws-amplify'
@@ -131,7 +131,7 @@ Now, our app is ready to start using our AWS services.
 
 ### Using the withAuthenticator component
 
-To add authentication, we'll go into __src/App.js__ and first import the `withAuthenticator` HOC (Higher Order Component) from `aws-amplify-react`:
+To add authentication, we'll go into __App.js__ and first import the `withAuthenticator` HOC (Higher Order Component) from `aws-amplify-react`:
 
 ```js
 import { withAuthenticator } from 'aws-amplify-react-native'
