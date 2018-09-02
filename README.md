@@ -772,6 +772,8 @@ If at any time, or at the end of this workshop, you would like to delete a servi
 
 ```sh
 amplify remove auth
+
+amplify push
 ```
 
 If you are unsure of what services you have enabled at any time, you can run the `amplify status` command:
