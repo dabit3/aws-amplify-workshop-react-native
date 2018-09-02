@@ -9,8 +9,8 @@ In this workshop we'll learn how to build cloud-enabled mobile applications with
 - [Authentication](https://github.com/dabit3/aws-amplify-workshop-react-native#adding-authentication)
 - [GraphQL API with AWS AppSync](https://github.com/dabit3/aws-amplify-workshop-react-native#adding-a-rest-api)
 - [REST API with a Lambda Function](https://github.com/dabit3/aws-amplify-workshop-react-native#adding-a-graphql-api)
-- [Adding Storage with Amazon S3](https://github.com/dabit3/aws-amplify-workshop-react-native#working-with-storage)
 - [Analytics](https://github.com/dabit3/aws-amplify-workshop-react-native#adding-analytics)
+- [Adding Storage with Amazon S3](https://github.com/dabit3/aws-amplify-workshop-react-native#working-with-storage)
 - [Removing / Deleting Services](https://github.com/dabit3/aws-amplify-workshop-react-native#removing-services)
 
 ## Redeeming our AWS Credit   
@@ -638,6 +638,52 @@ getPeople = async() => {
 }
 ```
 
+## Adding Analytics
+
+To add analytics, we can use the following command:
+
+```sh
+amplify add analytics
+```
+
+> Next, we'll be prompted for the following:
+
+? Provide your pinpoint resource name: __amplifyanalytics__   
+? Apps need authorization to send analytics events. Do you want to allow guest/unauthenticated users to send analytics events (recommended when getting started)? __Y__   
+? overwrite YOURFILEPATH-cloudformation-template.yml __Y__
+
+### Recording events
+
+Now that the service has been created we can now begin recording events.
+
+To record analytics events, we need to import the `Analytics` class from Amplify & then call `Analytics.record`:
+
+```js
+import { Analytics } from 'aws-amplify'
+
+state = {username: ''}
+
+async componentDidMount() {
+  try {
+    const user = await Auth.currentAuthenticatedUser()
+    this.setState({ username: user.username })
+  } catch (err) {
+    console.log('error getting user: ', err)
+  }
+}
+
+recordEvent = () => {
+  Analytics.record({
+    name: 'My test event',
+    attributes: {
+      username: this.state.username
+    }
+  })
+}
+
+<Button onPress={this.recordEvent} title='Record Event' />
+```
+
 ## Working with Storage
 
 To add storage, we can use the following command:
@@ -718,52 +764,6 @@ readFromStorage = () => {
     .then(data => console.log('data from S3: ', data))
     .catch(err => console.log('error'))
 }
-```
-
-## Adding Analytics
-
-To add analytics, we can use the following command:
-
-```sh
-amplify add analytics
-```
-
-> Next, we'll be prompted for the following:
-
-? Provide your pinpoint resource name: __amplifyanalytics__   
-? Apps need authorization to send analytics events. Do you want to allow guest/unauthenticated users to send analytics events (recommended when getting started)? __Y__   
-? overwrite YOURFILEPATH-cloudformation-template.yml __Y__
-
-### Recording events
-
-Now that the service has been created we can now begin recording events.
-
-To record analytics events, we need to import the `Analytics` class from Amplify & then call `Analytics.record`:
-
-```js
-import { Analytics } from 'aws-amplify'
-
-state = {username: ''}
-
-async componentDidMount() {
-  try {
-    const user = await Auth.currentAuthenticatedUser()
-    this.setState({ username: user.username })
-  } catch (err) {
-    console.log('error getting user: ', err)
-  }
-}
-
-recordEvent = () => {
-  Analytics.record({
-    name: 'My test event',
-    attributes: {
-      username: this.state.username
-    }
-  })
-}
-
-<Button onPress={this.recordEvent} title='Record Event' />
 ```
 
 ## Removing Services
