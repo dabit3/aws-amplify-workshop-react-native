@@ -742,7 +742,7 @@ If we want to read everything from this folder, we can use `Storage.list`:
 readFromStorage = () => {
   Storage.list('javascript/')
     .then(data => console.log('data from S3: ', data))
-    .catch(err => console.log('error'))
+    .catch(err => console.log('error fetching from S3', err))
 }
 ```
 
@@ -751,8 +751,16 @@ If we only want to read the single file, we can use `Storage.get`:
 ```js
 readFromStorage = () => {
   Storage.get('javascript/MyReactComponent.js')
-    .then(data => console.log('data from S3: ', data))
-    .catch(err => console.log('error'))
+    .then(data => {
+      console.log('data from S3: ', data)
+      fetch(data)
+        .then(r => r.text())
+        .then(text => {
+          console.log('text: ', text)
+        })
+        .catch(e => console.log('error fetching text: ', e))
+    })
+    .catch(err => console.log('error fetching from S3', err))
 }
 ```
 
@@ -762,7 +770,7 @@ If we wanted to pull down everything, we can use `Storage.list`:
 readFromStorage = () => {
   Storage.list('')
     .then(data => console.log('data from S3: ', data))
-    .catch(err => console.log('error'))
+    .catch(err => console.log('error fetching from S3', err))
 }
 ```
 
