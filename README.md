@@ -421,18 +421,6 @@ state = {
   name: '', description: '', pets: []
 }
 
-async componentDidMount() {
-  try {
-    const pets = await API.graphql(graphqlOperation(ListPets))
-    console.log('pets:', pets)
-    this.setState({
-      pets: pets.data.listPets.items
-    })
-  } catch (err) {
-    console.log('error fetching pets...', err)
-  }
-}  
-
 createPet = async() => {
   const { name, description } = this.state
   if (name === '') return
