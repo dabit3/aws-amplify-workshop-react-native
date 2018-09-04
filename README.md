@@ -76,9 +76,9 @@ Here we'll walk through the `amplify configure` setup. Once you've signed in to 
   secretAccessKey:  __(<YOUR_SECRET_ACCESS_KEY>)__
 - Profile Name: __(default)__
 
-### Initializing A New Project
+### Initializing A New AWS Amplify Project
 
-> Make sure to initialize this project in the root of your new React Native application
+> Make sure to initialize this Amplify project in the root of your new React Native application
 
 ```bash
 amplify init
