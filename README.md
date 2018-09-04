@@ -173,14 +173,14 @@ To do so, let's make a few updates:
 
 ```js
 // index.js
-class AuthWrapper extends React.Component {
+class AppWrapper extends React.Component {
   rerender = () => this.forceUpdate()
   render() {
     return <App rerender={this.rerender} />
   }
 }
 
-AppRegistry.registerComponent(appName, () => AuthWrapper);
+AppRegistry.registerComponent(appName, () => AppWrapper);
 
 // App.js
 class App extends Component {
