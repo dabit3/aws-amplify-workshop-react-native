@@ -481,7 +481,7 @@ API.graphql(
       const pets = [
         ...this.state.pets.filter(p => {
           const val1 = p.name + p.description
-          const val2 = onCreatePet.name + onCreatePet.description
+          const val2 = pet.name + pet.description
           return val1 !== val2
         }),
         pet
@@ -508,7 +508,6 @@ amplify add api
 - Provide a friendly name for your resource that will be used to label this category in the project: __amplifyrestapilambda__   
 - Provide the Lambda function name: __amplifyrestapilambda__   
 - Please select the function template you want to use: __Serverless express function (Integration with Amazon API Gateway)__   
-- Restrict API access __N__
 - Do you want to edit the local lambda function now? __Y__   
 
 > Update the existing `app.get('/pets') route with the following:
@@ -527,9 +526,10 @@ app.get('/pets', function(req, res) {
 });
 ```
 
-? Do you want to add another path? (y/N) __N__   
-? Which kind of privacy your API should have? __Authenticated and Guest users (AWS_IAM with Cognito Identity)__   
-? overwrite YOURFILEPATH-cloudformation-template.yml __Y__  
+- Restrict API access __Y__
+- Who should have access? Authenticated users only
+- What kind of access do you want for Authenticated users read/write
+- Do you want to add another path? (y/N) __N__   
 
 > Now the resources have been created & configured & we can push them to our account: 
 
@@ -633,9 +633,9 @@ amplify add analytics
 
 > Next, we'll be prompted for the following:
 
-? Provide your pinpoint resource name: __amplifyanalytics__   
-? Apps need authorization to send analytics events. Do you want to allow guest/unauthenticated users to send analytics events (recommended when getting started)? __Y__   
-? overwrite YOURFILEPATH-cloudformation-template.yml __Y__
+- Provide your pinpoint resource name: __amplifyanalytics__   
+- Apps need authorization to send analytics events. Do you want to allow guest/unauthenticated users to send analytics events (recommended when getting started)? __Y__   
+- overwrite YOURFILEPATH-cloudformation-template.yml __Y__
 
 ### Recording events
 
