@@ -517,7 +517,9 @@ app.get('/pets', function(req, res) {
   // Add your code here
   // Return the API Gateway event and query string parameters for example
   const pets = [
-    'Spike', 'Zeus', 'Butch'
+    { name: 'Spike', description: 'my favorite dog' },
+    { name: 'Zeus', description: 'my second favorite dog' },
+    { name: 'Butch', description: "mom's bff" }
   ]
   res.json({
     success: 'get call succeed!',
@@ -556,7 +558,7 @@ componentDidMount() {
 }
 getData = async() => {
   try {
-    const data = await API.get('apif8f4b7fe', '/pets')
+    const data = await API.get('amplifyrestapilambda', '/pets')
     this.setState({ pets: data.pets })
   } catch (err) {
     console.log('error fetching data..', err)
@@ -565,8 +567,11 @@ getData = async() => {
 
 // implement into render method
 {
-  this.state.pets.map((p, i) => (
-    <Text key={i}>{p}</Text>
+  this.state.pets.map((pet, index) => (
+    <View key={index}>
+      <Text>{pet.name}</Text>
+      <Text>{pet.description}</Text>
+    </View>
   ))
 }
 ```
