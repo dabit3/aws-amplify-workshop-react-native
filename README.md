@@ -165,7 +165,7 @@ async componentDidMount() {
 }
 ```
 
-### Signing out the user using the witAuthenticator HOC
+### Signing out the user using the withAuthenticator HOC
 
 We can sign the user out using the `Auth` class & calling `Auth.signOut()`. This function returns a promise that is fulfilled after the user session has been ended & AsyncStorage is updated.
 
