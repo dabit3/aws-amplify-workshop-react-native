@@ -510,7 +510,8 @@ amplify add api
 - Please select the function template you want to use: __Serverless express function (Integration with Amazon API Gateway)__   
 - Do you want to edit the local lambda function now? __Y__   
 
-> Update the existing `app.get('/pets') route with the following:
+> This will open `amplify/backend/function/<FUNCTIONNAME>/src/app.js`
+> In this file, update the existing `app.get('/pets') route with the following:
 ```js
 app.get('/pets', function(req, res) {
   // Add your code here
@@ -527,8 +528,8 @@ app.get('/pets', function(req, res) {
 ```
 
 - Restrict API access __Y__
-- Who should have access? Authenticated users only
-- What kind of access do you want for Authenticated users read/write
+- Who should have access? __Authenticated users only__
+- What kind of access do you want for Authenticated users __read/write__
 - Do you want to add another path? (y/N) __N__   
 
 > Now the resources have been created & configured & we can push them to our account: 
