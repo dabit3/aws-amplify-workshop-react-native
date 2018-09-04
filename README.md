@@ -320,7 +320,7 @@ query listPets {
 We can even add search / filter capabilities when querying:
 
 ```graphql
-query listPets {
+query searchPets {
   listPets(filter: {
     description: {
       contains: "dog"
