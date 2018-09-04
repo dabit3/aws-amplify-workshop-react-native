@@ -78,6 +78,8 @@ Here we'll walk through the `amplify configure` setup. Once you've signed in to 
 
 ### Initializing A New Project
 
+> Make sure to initialize this project in the root of your new React Native application
+
 ```bash
 amplify init
 ```
@@ -147,6 +149,19 @@ Now, we can run the app and see that an Authentication flow has been added in fr
 
 > To view the new user that was created in Cognito, go back to the dashboard at [https://console.aws.amazon.com/cognito/](https://console.aws.amazon.com/cognito/). Also be sure that your region is set correctly.
 
+### Accessing User Data
+
+We can access the user's info now that they are signed in by calling `Auth.currentAuthenticatedUser()`.
+
+```js
+import { Auth } from 'aws-amplify'
+
+async componentDidMount() {
+  const user = await Auth.currentAuthenticatedUser()
+  console.log('username:', user.username)
+}
+```
+
 ### Signing out the user using the witAuthenticator HOC
 
 We can sign the user out using the `Auth` class & calling `Auth.signOut()`. This function returns a promise that is fulfilled after the user session has been ended & AsyncStorage is updated.
@@ -185,19 +200,6 @@ class App extends Component {
 export default props =>  {
   const AppComponent = withAuthenticator(App)
   return <AppComponent {...props} />
-}
-```
-
-### Accessing User Data
-
-We can access the user's info now that they are signed in by calling `Auth.currentAuthenticatedUser()`.
-
-```js
-import { Auth } from 'aws-amplify'
-
-async componentDidMount() {
-  const user = await Auth.currentAuthenticatedUser()
-  console.log('username:', user.username)
 }
 ```
 
