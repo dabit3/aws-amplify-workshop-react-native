@@ -580,7 +580,30 @@ getData = async() => {
 
 Next, let's configure the REST API to add another endpoint that will fetch data from an external resource.
 
-The first thing we need to do is install `axios` in our Lambda function folder.
+First, we'll need to configure the API to know about the new endpoint:
+
+```sh
+amplify configure
+```
+
+- Please select from one of the below mentioned services __REST__
+- Please select the REST API you would want to update __amplifyrestapilambda__
+- What would you like to do __Add another path__
+- Provide a path (e.g., /items) __/people__
+- Choose a Lambda source __Use a Lambda function already added in the current Amplify project__
+- Choose the Lambda function to invoke by this path __amplifyrestapilambdarneutest__
+- Restrict API access __Yes__
+- Who should have access? __Authenticated users only__
+- What kind of access do you want for Authenticated users __read/write__
+- Do you want to add another path? __No__
+
+Now, we'll push the new configuration to our account:
+
+```sh
+amplify push
+```
+
+The next thing we need to do is install `axios` in our Lambda function folder.
 
 Navigate to __amplify/backend/function/<FUNCTION_NAME>/src__ and install __axios__:
 
@@ -621,7 +644,7 @@ Now we can add a new function called getPeople that will call this API:
 ```js
 getPeople = async() => {
   try {
-    const data = await API.get('amplifyrestlamdbaapi', '/people')
+    const data = await API.get('amplifyrestapilambda', '/people')
     this.setState({ people: data.people })
   } catch (err) {
     console.log('error fetching data..', err)
