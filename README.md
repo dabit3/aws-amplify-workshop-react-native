@@ -49,6 +49,8 @@ react-native link react-native-vector-icons
 react-native link amazon-cognito-identity-js
 ```
 
+> Now, because we've installed native dependencies, you need to compile the native project for these dependencies to be available.
+
 ## Installing the CLI & Initializing a new AWS Amplify Project
 
 ### Installing the CLI
@@ -225,10 +227,11 @@ onChangeText = (key, value) => {
   this.setState({ [key]: value })
 }
 
-// example of usage with input
+// example of usage with TextInput
 <TextInput
   placeholder='username'
   value={this.state.username}
+  style={{ width: 300, height: 50, margin: 5, backgroundColor: "#ddd" }}
   onChangeText={v => this.onChange('username', v)}
 />
 ```
@@ -447,8 +450,10 @@ onChange = (key, value) => {
 <TextInput
   onChangeText={v => this.onChange('name', v)}
   value={this.state.name}
+  style={{ width: 300, height: 50, margin: 5, backgroundColor: "#ddd" }}
 />
 <TextInput
+  style={{ width: 300, height: 50, margin: 5, backgroundColor: "#ddd" }}
   onChangeText={v => this.onChange('description', v)}
   value={this.state.description}
 />
