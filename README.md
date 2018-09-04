@@ -583,7 +583,7 @@ Next, let's configure the REST API to add another endpoint that will fetch data 
 First, we'll need to configure the API to know about the new endpoint:
 
 ```sh
-amplify configure
+amplify configure api
 ```
 
 - Please select from one of the below mentioned services __REST__
@@ -645,6 +645,7 @@ Now we can add a new function called getPeople that will call this API:
 getPeople = async() => {
   try {
     const data = await API.get('amplifyrestapilambda', '/people')
+    console.log('people data:', data)
     this.setState({ people: data.people })
   } catch (err) {
     console.log('error fetching data..', err)
