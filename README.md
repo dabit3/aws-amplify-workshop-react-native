@@ -345,12 +345,6 @@ To do so, we need to define the query, execute the query, store the data in our 
 
 
 ```js
-// additional react native imports
-import {
-  // ...existing imports,
-  TextInput
-} from 'react-native'
-
 // imports from Amplify library
 import { API, graphqlOperation } from 'aws-amplify'
 
