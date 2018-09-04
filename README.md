@@ -587,11 +587,11 @@ amplify configure api
 ```
 
 - Please select from one of the below mentioned services __REST__
-- Please select the REST API you would want to update __amplifyrestapilambda__
+- Please select the REST API you would want to update __amplifyrestapi__
 - What would you like to do __Add another path__
 - Provide a path (e.g., /items) __/people__
 - Choose a Lambda source __Use a Lambda function already added in the current Amplify project__
-- Choose the Lambda function to invoke by this path __amplifyrestapilambdarneutest__
+- Choose the Lambda function to invoke by this path __amplifyrestapilambda__
 - Restrict API access __Yes__
 - Who should have access? __Authenticated users only__
 - What kind of access do you want for Authenticated users __read/write__
