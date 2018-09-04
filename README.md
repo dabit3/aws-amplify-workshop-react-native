@@ -416,7 +416,7 @@ const CreatePet = `
   }
 `
 
-// create initial state
+// add name & description fields to initial state
 state = {
   name: '', description: '', pets: []
 }
