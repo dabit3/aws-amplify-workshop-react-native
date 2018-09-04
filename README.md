@@ -445,11 +445,11 @@ onChange = (key, value) => {
 
 // add UI with event handlers to manage user input
 <TextInput
-  onChange={v => this.onChange('name', v)}
+  onChangeText={v => this.onChange('name', v)}
   value={this.state.name}
 />
 <TextInput
-  onChange={v => this.onChange('description', v)}
+  onChangeText={v => this.onChange('description', v)}
   value={this.state.description}
 />
 <Button onPress={this.createPet} title='Create Pet' />
