@@ -158,6 +158,7 @@ import { Auth } from 'aws-amplify'
 
 async componentDidMount() {
   const user = await Auth.currentAuthenticatedUser()
+  console.log('user:', user)
   console.log('username:', user.username)
 }
 ```
