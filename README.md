@@ -580,7 +580,7 @@ getData = async() => {
 
 Next, let's configure the REST API to add another endpoint that will fetch data from an external resource.
 
-First, we'll need to configure the API to know about the new endpoint:
+First, we'll need to configure the API to know about the new path:
 
 ```sh
 amplify configure api
