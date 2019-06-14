@@ -13,7 +13,7 @@ In this workshop we'll learn how to build cloud-enabled mobile applications with
 - [Adding Storage with Amazon S3](https://github.com/dabit3/aws-amplify-workshop-react-native#working-with-storage)
 - [Removing / Deleting Services](https://github.com/dabit3/aws-amplify-workshop-react-native#removing-services)
 
-## Redeeming our AWS Credit   
+## Redeeming the AWS Credit   
 
 1. Visit the [AWS Console](https://console.aws.amazon.com/console).
 2. In the top right corner, click on __My Account__.
