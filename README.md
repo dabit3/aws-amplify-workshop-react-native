@@ -118,7 +118,7 @@ amplify init
 - Build Command: __npm run-script build__   
 - Start Command: __npm run-script start__   
 - Do you want to use an AWS profile? __Y__
-- Please choose the profile you want to use: __default__
+- Please choose the profile you want to use: __amplify-workshop-user__
 
 Now, the AWS Amplify CLI has iniatilized a new project & you will see a couple of new files & folders: __amplify__ & _aws-exports.js__. These files hold your project configuration.
 
