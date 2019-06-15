@@ -851,9 +851,9 @@ amplify add storage
 - What kind of access do you want for Authenticated users?
 
 ```sh
- ◉ create/update
+❯◉ create/update
  ◉ read
-❯◉ delete
+ ◉ delete
 ```
 
 
