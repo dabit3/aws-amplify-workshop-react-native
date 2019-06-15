@@ -7,7 +7,7 @@ In this workshop we'll learn how to build cloud-enabled mobile applications with
 ### Topics we'll be covering:
 
 - [Authentication](https://github.com/dabit3/aws-amplify-workshop-react-native#adding-authentication)
-- [GraphQL API with AWS AppSync](https://github.com/dabit3/aws-amplify-workshop-react-native#adding-a-rest-api)
+- [GraphQL API with AWS AppSync](https://github.com/dabit3/aws-amplify-workshop-react-native#adding-a-graphql-api-with-aws-appsync)
 - [REST API with a Lambda Function](https://github.com/dabit3/aws-amplify-workshop-react-native#adding-a-graphql-api)
 - [Analytics](https://github.com/dabit3/aws-amplify-workshop-react-native#adding-analytics)
 - [Adding Storage with Amazon S3](https://github.com/dabit3/aws-amplify-workshop-react-native#working-with-storage)
@@ -176,7 +176,17 @@ export default withAuthenticator(App, {
 
 Now, we can run the app and see that an Authentication flow has been added in front of our App component. This flow gives users the ability to sign up & sign in.
 
-> To view the new user that was created in Cognito, go back to the dashboard at [https://console.aws.amazon.com/cognito/](https://console.aws.amazon.com/cognito/). Also be sure that your region is set correctly.
+```sh
+react-native run-ios
+
+# or
+
+react-native run-android
+
+# or
+
+expo start
+```
 
 ### Accessing User Data
 
@@ -188,49 +198,38 @@ import { Auth } from 'aws-amplify'
 async componentDidMount() {
   const user = await Auth.currentAuthenticatedUser()
   console.log('user:', user)
-  console.log('username:', user.username)
 }
 ```
 
-### Signing out the user using the withAuthenticator HOC
+### Using the Auth class to sign out
 
-We can sign the user out using the `Auth` class & calling `Auth.signOut()`. This function returns a promise that is fulfilled after the user session has been ended & AsyncStorage is updated.
+We can also sign the user out using the `Auth` class & calling `Auth.signOut()`. This function returns a promise that is fulfilled after the user session has been ended & AsyncStorage is updated.
 
 Because `withAuthenticator` holds all of the state within the actual component, we must have a way to rerender the actual `withAuthenticator` component by forcing React to rerender the parent component.
 
 To do so, let's make a few updates:
 
 ```js
-// index.js
-class AppWrapper extends React.Component {
-  rerender = () => this.forceUpdate()
-  render() {
-    return <App rerender={this.rerender} />
+import React from 'react'
+import { View, Text } from 'react-native'
+import { withAuthenticator } from 'aws-amplify-react-native'
+
+function App(props) {
+  function signOut() {
+    Auth.signOut()
+      .then(() => props.onStateChange('signedOut', null))
+      .catch(err => console.log('err: ', err))
   }
+  
+  return (
+    <View>
+      <Text>Hello World</Text>
+      <Text onPress={signOut}>Sign Out</Text>
+    </View>
+  )
 }
 
-AppRegistry.registerComponent(appName, () => AppWrapper);
-
-// App.js
-class App extends Component {
-  signOut = async () => {
-    await Auth.signOut()
-    this.props.rerender()
-  }
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text onPress={this.signOut} style={styles.instructions}>Sign Out</Text>
-      </View>
-    );
-  }
-}
-
-export default props =>  {
-  const AppComponent = withAuthenticator(App)
-  return <AppComponent {...props} />
-}
+export default withAuthenticator(App)
 ```
 
 ### Custom authentication strategies
@@ -280,7 +279,7 @@ signUp = async() => {
 }
 ```
 
-## Adding a GraphQL API
+## Adding a GraphQL API with AWS AppSync
 
 To add a GraphQL API, we can use the following command:
 
@@ -291,7 +290,7 @@ amplify add api
 Answer the following questions
 
 - Please select from one of the above mentioned services __GraphQL__   
-- Provide API name: __AmplifyWorkshopTest__   
+- Provide API name: __RestaurantAPI__   
 - Choose an authorization type for the API __API key__   
 - Do you have an annotated GraphQL schema? __N__   
 - Do you want a guided schema creation? __Y__   
@@ -301,10 +300,12 @@ Answer the following questions
 > When prompted, update the schema to the following:   
 
 ```graphql
-type Pet @model {
+type Restaurant @model {
   id: ID!
+  clientId: String
   name: String!
-  description: String
+  description: String!
+  city: String!
 }
 ```
 
@@ -312,7 +313,14 @@ type Pet @model {
 
 ```bash
 amplify push
+
+> Do you want to generate code for your newly created GraphQL API: Y
+> Choose the code generation language target: <Your target>
+> Enter the file name pattern of graphql queries, mutations and subscriptions: (src/graphql/**/*.js)
+> Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Y
+> Enter maximum statement depth [increase from default if your schema is deeply nested]: (2)
 ```
+
 
 > To view the new AWS AppSync API at any time after its creation, go to the dashboard at [https://console.aws.amazon.com/appsync](https://console.aws.amazon.com/appsync). Also be sure that your region is set correctly.
 
@@ -320,28 +328,30 @@ amplify push
 
 In the AWS AppSync console, open your API & then click on Queries.
 
-Execute the following mutation to create a new pet in the API:
+Execute the following mutation to create a new restaurant in the API:
 
 ```graphql
-mutation createPet {
-  createPet(input: {
-    name: "Zeus"
-    description: "Best dog in the western hemisphere"
+mutation createRestaurant {
+  createRestaurant(input: {
+    name: "Nobu"
+    description: "Great Sushi"
+    city: "New York"
   }) {
-    id
+    id name description city
   }
 }
 ```
 
-Now, let's query for the pet:
+Now, let's query for the restaurant:
 
 ```graphql
-query listPets {
-  listPets {
+query listRestaurants {
+  listRestaurants {
     items {
       id
       name
       description
+      city
     }
   }
 }
@@ -350,16 +360,17 @@ query listPets {
 We can even add search / filter capabilities when querying:
 
 ```graphql
-query searchPets {
-  listPets(filter: {
-    description: {
-      contains: "dog"
+query searchRestaurants {
+  listRestaurants(filter: {
+    city: {
+      contains: "New York"
     }
   }) {
     items {
       id
       name
       description
+      city
     }
   }
 }
@@ -375,46 +386,39 @@ To do so, we need to define the query, execute the query, store the data in our 
 
 
 ```js
+// App.js
+
 // imports from Amplify library
 import { API, graphqlOperation } from 'aws-amplify'
 
-// define query
-const ListPets = `
-  query {
-    listPets {
-      items {
-        id
-        name
-        description
-      }
-    }
-  }
-`
+// import the query
+import { listRestaurants } from './src/graphql/queries'
 
 // define some state to hold the data returned from the API
 state = {
-  pets: []
+  restaurants: []
 }
 
 // execute the query in componentDidMount
 async componentDidMount() {
   try {
-    const pets = await API.graphql(graphqlOperation(ListPets))
-    console.log('pets:', pets)
+    const restaurantData = await API.graphql(graphqlOperation(listRestaurants))
+    console.log('restaurantData:', restaurantData)
     this.setState({
-      pets: pets.data.listPets.items
+      restaurants: restaurantData.data.listRestaurants.items
     })
   } catch (err) {
-    console.log('error fetching pets...', err)
+    console.log('error fetching restaurants...', err)
   }
 }
 
 // add UI in render method to show data
   {
-    this.state.pets.map((pet, index) => (
+    this.state.restaurants.map((restaurant, index) => (
       <View key={index}>
-        <Text>{pet.name}</Text>
-        <Text>{pet.description}</Text>
+        <Text>{restaurant.name}</Text>
+        <Text>{restaurant.description}</Text>
+        <Text>{restaurant.city}</Text>
       </View>
     ))
   }
@@ -430,41 +434,36 @@ import {
   // ...existing imports
   TextInput, Button
 } from 'react-native'
-
 import { graphqlOperation, API } from 'aws-amplify'
+import uuid from 'uuid/v4'
+const CLIENTID = uuid()
 
-// define the new mutation
-const CreatePet = `
-  mutation($name: String!, $description: String) {
-    createPet(input: {
-      name: $name, description: $description
-    }) {
-      id
-      name
-      description
-    }
-  }
-`
+// import the mutation
+import { createRestaurant } from './src/graphql/mutations'
 
 // add name & description fields to initial state
 state = {
-  name: '', description: '', pets: []
+  name: '', description: '', city: '', restaurants: []
 }
 
-createPet = async() => {
-  const { name, description } = this.state
-  if (name === '') return
-  let pet = { name }
-  if (description !== '') {
-    pet = { ...pet, description }
+createRestaurant = async() => {
+  const { name, description, city  } = this.state
+  const restaurant = {
+    name, description, city, clientId: CLIENTID
   }
-  const updatedPetArray = [...this.state.pets, pet]
-  this.setState({ pets: updatedPetArray })
+  
+  const updatedRestaurantArray = [...this.state.restaurants, restaurant]
+  this.setState({
+    restaurants: updatedRestaurantArray,
+    name: '', description: '', city: ''
+    })
   try {
-    await API.graphql(graphqlOperation(CreatePet, pet))
+    await API.graphql(graphqlOperation(createRestaurant, {
+      input: restaurant
+    }))
     console.log('item created!')
   } catch (err) {
-    console.log('error creating pet...', err)
+    console.log('error creating restaurant...', err)
   }
 }
 
@@ -477,14 +476,28 @@ onChange = (key, value) => {
 <TextInput
   onChangeText={v => this.onChange('name', v)}
   value={this.state.name}
-  style={{ width: 300, height: 50, margin: 5, backgroundColor: "#ddd" }}
+  style={{ height: 50, margin: 5, backgroundColor: "#ddd" }}
 />
 <TextInput
-  style={{ width: 300, height: 50, margin: 5, backgroundColor: "#ddd" }}
+  style={{ height: 50, margin: 5, backgroundColor: "#ddd" }}
   onChangeText={v => this.onChange('description', v)}
   value={this.state.description}
 />
-<Button onPress={this.createPet} title='Create Pet' />
+<TextInput
+  style={{ height: 50, margin: 5, backgroundColor: "#ddd" }}
+  onChangeText={v => this.onChange('city', v)}
+  value={this.state.city}
+/>
+<Button onPress={this.createRestaurant} title='Create Restaurant' />
+
+// update styles to remove alignItems property
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+  },
+});
 ```
 
 ### GraphQL Subscriptions
@@ -494,34 +507,40 @@ Next, let's see how we can create a subscription to subscribe to changes of data
 To do so, we need to define the subscription, listen for the subscription, & update the state whenever a new piece of data comes in through the subscription.
 
 ```js
-// define the subscription
-const SubscribeToNewPets = `subscription {
-  onCreatePet {
-    id
-    name
-    description
-  }
-}`;
+// import the subscription
+import { onCreateRestaurant } from './src/graphql/subscriptions'
+
+// define the subscription in the class
+subscription = {}
 
 // subscribe in componentDidMount
-API.graphql(
-  graphqlOperation(SubscribeToNewPets)
-).subscribe({
-    next: (eventData) => {
-      console.log('eventData', eventData)
-      const pet = eventData.value.data.onCreatePet
-      const pets = [
-        ...this.state.pets.filter(p => {
-          const val1 = p.name + p.description
-          const val2 = pet.name + pet.description
-          return val1 !== val2
-        }),
-        pet
-      ]
-      this.setState({ pets })
-    }
-});
+componentDidMount() {
+  this.subscription = API.graphql(
+    graphqlOperation(onCreateRestaurant)
+  ).subscribe({
+      next: eventData => {
+        console.log('eventData', eventData)
+        const restaurant = eventData.value.data.onCreateRestaurant
+        if(CLIENTID === restaurant.clientId) return
+        const restaurants = [...this.state.restaurants, restaurant]
+        this.setState({ restaurants })
+      }
+  });
+}
+
+// remove the subscription in componentWillUnmount
+componentWillUnmount() {
+  this.subscription.unsubscribe()
+}
 ```
+
+## Challenge
+
+Recreate this functionality in Hooks
+
+> For direction, check out the tutorial [here](https://medium.com/open-graphql/react-hooks-for-graphql-3fa8ebdd6c62)
+
+> For the solution to this challenge, view the [hooks](hooks.js) file. __Note__ that Expo does not yet support hooks.
 
 ## Adding a REST API
 
