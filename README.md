@@ -384,6 +384,18 @@ query searchRestaurants {
 }
 ```
 
+Or, get an individual restaurant by ID:
+
+```graphql
+query getRestaurant {
+  getRestaurant(id: "RESTAURANT_ID") {
+    name
+    description
+    city
+  }
+}
+```
+
 ### Interacting with the GraphQL API from our client application - Querying for data
 
 Now that the GraphQL API is created we can begin interacting with it!
