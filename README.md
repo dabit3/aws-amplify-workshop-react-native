@@ -472,9 +472,9 @@ createRestaurant = async() => {
     name, description, city, clientId: CLIENTID
   }
   
-  const updatedRestaurantArray = [...this.state.restaurants, restaurant]
+  const restaurants = [...this.state.restaurants, restaurant]
   this.setState({
-    restaurants: updatedRestaurantArray,
+    restaurants,
     name: '', description: '', city: ''
     })
   try {
