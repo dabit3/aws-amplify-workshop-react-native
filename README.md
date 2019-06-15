@@ -322,7 +322,11 @@ amplify push
 - Enter maximum statement depth [increase from default if your schema is deeply nested]: __(2)__
 
 
-> To view the new AWS AppSync API at any time after its creation, go to the dashboard at [https://console.aws.amazon.com/appsync](https://console.aws.amazon.com/appsync). Also be sure that your region is set correctly.
+To view the new AWS AppSync API at any time after its creation, run the following command:
+
+```sh
+amplify console api
+```
 
 ### Adding mutations from within the AWS AppSync Console
 
