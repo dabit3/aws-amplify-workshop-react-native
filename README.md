@@ -131,7 +131,8 @@ amplify add auth
 Now, we'll run the push command and the cloud resources will be created in our AWS account.
 
 ```bash
-amplify
+amplify push
+```
 
 > To view the new Cognito authentication service at any time after its creation, go to the dashboard at [https://console.aws.amazon.com/cognito/](https://console.aws.amazon.com/cognito/). Also be sure that your region is set correctly.
 
