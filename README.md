@@ -126,7 +126,7 @@ Now, the AWS Amplify CLI has iniatilized a new project & you will see a couple o
 
 ### Configuring the React Native application
 
-The next thing we need to do is to configure our React application to be aware of our new AWS Amplify project. We can do this by referencing the auto-generated __aws-exports.js__ file that is now in our root folder.
+The next thing we need to do is to configure our React Native application to be aware of our new AWS Amplify project. We can do this by referencing the auto-generated __aws-exports.js__ file that is now in our root folder.
 
 To configure the app, open __index.js__ and add the following code below the last import:
 
