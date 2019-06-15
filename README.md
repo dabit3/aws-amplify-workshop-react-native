@@ -64,11 +64,11 @@ Next, run the app:
 ```sh
 react-native run-ios
 
-# or
+# or if running android
 
 react-native run-android
 
-# or
+# or, if using expo
 
 expo start
 ```
@@ -92,7 +92,7 @@ amplify configure
 > If you'd like to see a video walkthrough of this configuration process, click [here](https://www.youtube.com/watch?v=fWbM5DLh25U).
 
 Here we'll walk through the `amplify configure` setup. Once you've signed in to the AWS console, continue:
-- Specify the AWS Region: __eu-central-1, us-east-1 , or region closest to you__
+- Specify the AWS Region: __preferred region__
 - Specify the username of the new IAM user: __amplify-workshop-user__
 > In the AWS Console, click __Next: Permissions__, __Next: Review__, & __Create User__ to create the new IAM user. Then, return to the command line & press Enter.
 - Enter the access key of the newly created user:   
@@ -108,6 +108,8 @@ Here we'll walk through the `amplify configure` setup. Once you've signed in to 
 amplify init
 ```
 
+- Enter a name for the project: __RNAmplify__
+- Enter a name for the environment: __dev__
 - Choose your default editor: __Visual Studio Code (or your favorite editor)__   
 - Please choose the type of app that you're building __javascript__   
 - What javascript framework are you using __react-native__   
@@ -179,11 +181,11 @@ Now, we can run the app and see that an Authentication flow has been added in fr
 ```sh
 react-native run-ios
 
-# or
+# or if running android
 
 react-native run-android
 
-# or
+# or, if using expo
 
 expo start
 ```
