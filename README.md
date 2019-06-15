@@ -883,7 +883,7 @@ addToStorage = () => {
 <Button onPress={this.addToStorage} title='Add to Storage' />
 ```
 
-This would create a folder called `javascript` in our S3 bucket & store a file called __MyReactComponent.js__ there with the code we specified in the second argument of `Storage.put`.
+This would create a folder called `textfiles` in our S3 bucket & store a file called __mytext.txt__ there with the code we specified in the second argument of `Storage.put`.
 
 If we want to read everything from this folder, we can use `Storage.list`:
 
@@ -899,7 +899,7 @@ If we only want to read the single file, we can use `Storage.get`:
 
 ```js
 readFromStorage = () => {
-  Storage.get('javascript/MyReactComponent.js')
+  Storage.get('textfiles/mytext.txt')
     .then(data => {
       console.log('data from S3: ', data)
       fetch(data)
@@ -1094,3 +1094,11 @@ amplify status
 ```
 
 `amplify status` will give you the list of resources that are currently enabled in your app.
+
+## Deleting the project
+
+To delete the entire project, run the `delete` command:
+
+```sh
+amplify delete
+```
