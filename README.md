@@ -114,7 +114,23 @@ amplify init
 - Do you want to use an AWS profile? __Y__
 - Please choose the profile you want to use: __default__
 
-Now, the AWS Amplify CLI has iniatilized a new project & you will see a couple of new files & folders: __amplify__ & __.amplifyrc__. These files hold your project configuration.
+Now, the AWS Amplify CLI has iniatilized a new project & you will see a couple of new files & folders: __amplify__ & _aws-exports.js__. These files hold your project configuration.
+
+### Configuring the React Native application
+
+Now, our resources are created & we can start using them!
+
+The first thing we need to do is to configure our React application to be aware of our new AWS Amplify project. We can do this by referencing the auto-generated `aws-exports.js` file that is now in our root folder.
+
+To configure the app, open __index.js__ and add the following code below the last import:
+
+```js
+import Amplify from 'aws-amplify'
+import config from './aws-exports'
+Amplify.configure(config)
+```
+
+Now, our app is ready to start using our AWS services.
 
 ## Adding Authentication
 
@@ -134,23 +150,11 @@ Now, we'll run the push command and the cloud resources will be created in our A
 amplify push
 ```
 
-> To view the new Cognito authentication service at any time after its creation, go to the dashboard at [https://console.aws.amazon.com/cognito/](https://console.aws.amazon.com/cognito/). Also be sure that your region is set correctly.
+To view the new Cognito authentication service at any time after its creation, run the following command:
 
-### Configuring the React Native applicaion
-
-Now, our resources are created & we can start using them!
-
-The first thing we need to do is to configure our React application to be aware of our new AWS Amplify project. We can do this by referencing the auto-generated `aws-exports.js` file that is now in our root folder.
-
-To configure the app, open __index.js__ and add the following code below the last import:
-
-```js
-import Amplify from 'aws-amplify'
-import config from './aws-exports'
-Amplify.configure(config)
+```sh
+amplify console auth
 ```
-
-Now, our app is ready to start using our AWS services.
 
 ### Using the withAuthenticator component
 
