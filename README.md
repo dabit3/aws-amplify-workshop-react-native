@@ -66,6 +66,10 @@ react-native run-ios
 
 # or
 
+react-native run-android
+
+# or
+
 expo start
 ```
 
