@@ -94,13 +94,13 @@ amplify configure
 > If you'd like to see a video walkthrough of this configuration process, click [here](https://www.youtube.com/watch?v=fWbM5DLh25U).
 
 Here we'll walk through the `amplify configure` setup. Once you've signed in to the AWS console, continue:
-- Specify the AWS Region: __preferred region__
+- Specify the AWS Region: __your preferred region__
 - Specify the username of the new IAM user: __amplify-workshop-user__
-> In the AWS Console, click __Next: Permissions__, __Next: Review__, & __Create User__ to create the new IAM user. Then, return to the command line & press Enter.
+> In the AWS Console, click __Next: Permissions__, __Next: Tags__, __Next: Review__, & __Create User__ to create the new IAM user. Then, return to the command line & press Enter.
 - Enter the access key of the newly created user:   
   accessKeyId: __(<YOUR_ACCESS_KEY_ID>)__   
   secretAccessKey:  __(<YOUR_SECRET_ACCESS_KEY>)__
-- Profile Name: __(default)__
+- Profile Name: __amplify-workshop-user__
 
 ### Initializing A New AWS Amplify Project
 
