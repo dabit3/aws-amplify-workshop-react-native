@@ -23,33 +23,51 @@ In this workshop we'll learn how to build cloud-enabled mobile applications with
 
 ## Getting Started - Creating the React Native Application
 
-To get started, we first need to create a new React Native project & change into the new directory using the [React Native CLI](https://facebook.github.io/react-native/docs/getting-started.html). (See __Building Projects With Native Code__ in the documentation)
+To get started, we first need to create a new React Native project & change into the new directory using the [React Native CLI](https://facebook.github.io/react-native/docs/getting-started.html) (See __Building Projects With Native Code__ in the documentation) or [Expo CLI](https://facebook.github.io/react-native/docs/getting-started).
 
 If you already have the CLI installed, go ahead and create a new React Native app. If not, install the CLI & create a new app:
 
 ```bash
 npm install -g react-native-cli
 
-react-native init AmplifyApp
+react-native init RNAmplify
+
+# or
+
+npm install -g expo-cli
+
+expo init RNAmplify
+
+> Choose a template: blank
 ```
 
 Now change into the new app directory & install the AWS Amplify, AWS Amplify React Native, & React Native Vector Icon libraries:
 
 ```bash
-cd AmplifyApp
-npm install --save aws-amplify aws-amplify-react-native react-native-vector-icons
+cd RNAmplify
+
+npm install --save aws-amplify aws-amplify-react-native uuid
+
 # or
-yarn add aws-amplify aws-amplify-react-native react-native-vector-icons
+
+yarn add aws-amplify aws-amplify-react-native uuid
 ```
 
-Finally, we need to link two native libraries:
+Finally, if you're __not using Expo CLI__ you need to link two native libraries:
 
 ```sh
 react-native link react-native-vector-icons
 react-native link amazon-cognito-identity-js
 ```
+Next, run the app:
 
-> Now, because we've installed native dependencies, you need to compile the native project for these dependencies to be available.
+```sh
+react-native run-ios
+
+# or
+
+expo start
+```
 
 ## Installing the CLI & Initializing a new AWS Amplify Project
 
@@ -98,7 +116,6 @@ amplify init
 
 Now, the AWS Amplify CLI has iniatilized a new project & you will see a couple of new files & folders: __amplify__ & __.amplifyrc__. These files hold your project configuration.
 
-
 ## Adding Authentication
 
 To add authentication, we can use the following command:
@@ -107,13 +124,14 @@ To add authentication, we can use the following command:
 amplify add auth
 ```
 
-> When prompted for __Do you want to use default authentication and security configuration?__, choose __Yes__
+- __Do you want to use default authentication and security configuration?__ __Default configuration__   
+- How do you want users to be able to sign in when using your Cognito User Pool? __Username__ (keep default) 
+- What attributes are required for signing up? __Email__ (keep default)
 
 Now, we'll run the push command and the cloud resources will be created in our AWS account.
 
 ```bash
-amplify push
-```
+amplify
 
 > To view the new Cognito authentication service at any time after its creation, go to the dashboard at [https://console.aws.amazon.com/cognito/](https://console.aws.amazon.com/cognito/). Also be sure that your region is set correctly.
 
