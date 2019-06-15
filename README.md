@@ -546,9 +546,162 @@ Recreate this functionality in Hooks
 
 > For the solution to this challenge, view the [hooks](hooks.js) file. __Note__ that Expo does not yet support hooks.
 
+## Adding a Serverless Function
+
+### Adding a basic Lambda Function
+
+To add a serverless function, we can run the following command:
+
+```sh
+amplify add function
+```
+
+> Answer the following questions
+
+- Provide a friendly name for your resource to be used as a label for this category in the project: __basiclambda__
+- Provide the AWS Lambda function name: __basiclambda__
+- Choose the function template that you want to use: __Hello world function__
+- Do you want to edit the local lambda function now? __Y__
+
+> This should open the function package located at __amplify/backend/function/basiclambda/src/index.js__.
+
+Edit the function to look like this, & then save the file.
+
+```js
+exports.handler = function (event, context) {
+  console.log('event: ', event)
+  const body = {
+    message: "Hello world!"
+  }
+  const response = {
+    statusCode: 200,
+    body
+  }
+  context.done(null, response);
+}
+```
+
+Next, we can test this out by running:
+
+```sh
+amplify function invoke basiclambda
+```
+
+- Provide the name of the script file that contains your handler function: __index.js__
+-  Provide the name of the handler function to invoke: __handler__
+
+You'll notice the following output from your terminal:
+
+```sh
+Running "lambda_invoke:default" (lambda_invoke) task
+
+event:  { key1: 'value1', key2: 'value2', key3: 'value3' }
+
+Success!  Message:
+------------------
+{"statusCode":200,"body":{"message":"Hello world!"}}
+
+Done.
+Done running invoke function.
+```
+
+_Where is the event data coming from? It is coming from the values located in event.json in the function folder (__amplify/backend/function/basiclambda/src/event.json__). If you update the values here, you can simulate data coming arguments the event._
+
+Feel free to test out the function by updating `event.json` with data of your own.
+
+### Adding a function running an express server
+
+Next, we'll build a function that will be running an [Express](https://expressjs.com/) server inside of it.
+
+This new function will fetch data from a cryptocurrency API & return the values in the response.
+
+To get started, we'll create a new function:
+
+```sh
+amplify add function
+```
+
+> Answer the following questions
+
+- Provide a friendly name for your resource to be used as a label for this category in the project: __cryptofunction__
+- Provide the AWS Lambda function name: __cryptofunction__
+- Choose the function template that you want to use: __Serverless express function (Integration with Amazon API Gateway)__
+- Do you want to edit the local lambda function now? __Y__
+
+> This should open the function package located at __amplify/backend/function/cryptofunction/src/index.js__.
+
+Here, we'll add the following code & save the file:
+
+```js
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  next()
+});
+// below the last app.use() method, add the following code 👇
+const axios = require('axios')
+
+app.get('/coins', function(req, res) {
+  let apiUrl = `https://api.coinlore.com/api/tickers?start=0&limit=10`
+  
+  if (req.apiGateway && req.apiGateway.event.queryStringParameters) {
+    const { start = 0, limit = 10 } = req.apiGateway.event.queryStringParameters
+    apiUrl = `https://api.coinlore.com/api/tickers/?start=${start}&limit=${limit}`
+  }
+  axios.get(apiUrl)
+    .then(response => {
+      res.json({
+        coins: response.data.data
+      })
+    })
+    .catch(err => res.json({ error: err }))
+})
+```
+
+Next, we'll install axios in the function package:
+
+```sh
+cd amplify/backend/function/cryptofunction/src
+
+npm install axios
+
+cd ../../../../../
+```
+
+Next, change back into the root directory.
+
+Now we can test this function out:
+
+```sh
+amplify function invoke cryptofunction
+```
+
+This will start up the node server. We can then make `curl` requests agains the endpoint:
+
+```sh
+curl 'localhost:3000/coins'
+```
+
+If we'd like to test out the query parameters, we can update the __event.json__ to add the following:
+
+```json
+{
+    "httpMethod": "GET",
+    "path": "/coins",
+    "queryStringParameters": {
+        "start": "0",
+        "limit": "1"
+    }
+}
+```
+
+When we invoke the function these query parameters will be passed in & the http request will be made immediately.
+
 ## Adding a REST API
 
-To add a REST API, we can use the following command:
+Now that we've created the cryptocurrency Lambda function let's add an API endpoint so we can invoke it via http.
+
+To add the REST API, we can use the following command:
 
 ```sh
 amplify add api
@@ -557,39 +710,16 @@ amplify add api
 > Answer the following questions
 
 - Please select from one of the above mentioned services __REST__   
-- Provide a friendly name for your resource that will be used to label this category in the project: __amplifyrestapi__   
-- Provide a path, e.g. /items __/pets__   
-- Choose lambda source __Create a new Lambda function__   
-- Provide a friendly name for your resource that will be used to label this category in the project: __amplifyrestapilambda__   
-- Provide the Lambda function name: __amplifyrestapilambda__   
-- Please select the function template you want to use: __Serverless express function (Integration with Amazon API Gateway)__   
-- Do you want to edit the local lambda function now? __Y__   
-
-> This will open `amplify/backend/function/<FUNCTIONNAME>/src/app.js`
-> In this file, update the existing `app.get('/pets') route with the following:
-```js
-app.get('/pets', function(req, res) {
-  // Add your code here
-  // Return the API Gateway event and query string parameters for example
-  const pets = [
-    { name: 'Spike', description: 'my favorite dog' },
-    { name: 'Zeus', description: 'my second favorite dog' },
-    { name: 'Butch', description: "mom's bff" }
-  ]
-  res.json({
-    success: 'get call succeed!',
-    url: req.url,
-    pets
-  });
-});
-```
-
+- Provide a friendly name for your resource that will be used to label this category in the project: __cryptoapi__   
+- Provide a path, e.g. /items __/coins__   
+- Choose lambda source __Use a Lambda function already added in the current Amplify project__   
+- Choose the Lambda function to invoke by this path: __cryptofunction__   
 - Restrict API access __Y__
 - Who should have access? __Authenticated users only__
-- What kind of access do you want for Authenticated users __read/write__
-- Do you want to add another path? (y/N) __N__   
+- What kind of access do you want for Authenticated users __read/create/update/delete__
+- Do you want to add another path? (y/N) __N__     
 
-> Now the resources have been created & configured & we can push them to our account: 
+Now the resources have been created & configured & we can push them to our account: 
 
 ```bash
 amplify push
@@ -602,110 +732,42 @@ Now that the API is created we can start sending requests to it & interacting wi
 Let's request some data from the API:
 
 ```js
+// src/App.js
+import React from 'react'
 import { API } from 'aws-amplify'
+import { withAuthenticator } from 'aws-amplify-react'
 
-// create initial state
-state = { pets: [] }
-
-// fetch data at componentDidMount
-componentDidMount() {
-  this.getData()
-}
-getData = async() => {
-  try {
-    const data = await API.get('amplifyrestapilambda', '/pets')
-    this.setState({ pets: data.pets })
-  } catch (err) {
-    console.log('error fetching data..', err)
+class App extends React.Component {
+  state = {
+    coins: []
+  }
+  async componentDidMount() {
+    try {
+      // const data = await API.get('cryptoapi', '/coins')
+      const data = await API.get('cryptoapi', '/coins?limit=5&start=100')
+      console.log('data from Lambda REST API: ', data)
+      this.setState({ coins: data.coins })
+    } catch (err) {
+      console.log('error fetching data..', err)
+    }
+  }
+  render() {
+    return (
+      <div>
+        {
+          this.state.coins.map((c, i) => (
+            <div key={i}>
+              <h2>{c.name}</h2>
+              <p>{c.price_usd}</p>
+            </div>
+          ))
+        }
+      </div>
+    )
   }
 }
 
-// implement into render method
-{
-  this.state.pets.map((pet, index) => (
-    <View key={index}>
-      <Text>{pet.name}</Text>
-      <Text>{pet.description}</Text>
-    </View>
-  ))
-}
-```
-
-### Fetching data from another API in a Lambda function.
-
-Next, let's configure the REST API to add another endpoint that will fetch data from an external resource.
-
-First, we'll need to configure the API to know about the new path:
-
-```sh
-amplify configure api
-```
-
-- Please select from one of the below mentioned services __REST__
-- Please select the REST API you would want to update __amplifyrestapi__
-- What would you like to do __Add another path__
-- Provide a path (e.g., /items) __/people__
-- Choose a Lambda source __Use a Lambda function already added in the current Amplify project__
-- Choose the Lambda function to invoke by this path __amplifyrestapilambda__
-- Restrict API access __Yes__
-- Who should have access? __Authenticated users only__
-- What kind of access do you want for Authenticated users __read/write__
-- Do you want to add another path? __No__
-
-Now, we'll push the new configuration to our account:
-
-```sh
-amplify push
-```
-
-The next thing we need to do is install `axios` in our Lambda function folder.
-
-Navigate to __amplify/backend/function/<FUNCTION_NAME>/src__ and install __axios__:
-
-```sh
-yarn add axios
-
-# or
-
-npm install axios
-```
-
-Next, in __amplify/backend/function/<FUNCTION_NAME>/src/app.js__, let's add a new endpoint that will fetch a list of people from the [Star Wars API](https://swapi.co/).
-
-```js
-// require axios
-var axios = require('axios')
-
-// add new /people endpoint
-app.get('/people', function(req, res) {
-  axios.get('https://swapi.co/api/people/')
-    .then(response => {
-      res.json({
-        people: response.data.results,
-        success: 'get call succeed!',
-        url: req.url
-      });
-    })
-    .catch(err => {
-      res.json({
-        error: 'error fetching data'
-      });
-    })
-});
-```
-
-Now we can add a new function called getPeople that will call this API:
-
-```js
-getPeople = async() => {
-  try {
-    const data = await API.get('amplifyrestapilambda', '/people')
-    console.log('people data:', data)
-    this.setState({ people: data.people })
-  } catch (err) {
-    console.log('error fetching data..', err)
-  }
-}
+export default withAuthenticator(App, { includeGreetings: true })
 ```
 
 ## Adding Analytics
