@@ -124,7 +124,7 @@ Now, the AWS Amplify CLI has iniatilized a new project & you will see a couple o
 
 ### Configuring the React Native application
 
-The next thing we need to do is to configure our React application to be aware of our new AWS Amplify project. We can do this by referencing the auto-generated `aws-exports.js` file that is now in our root folder.
+The next thing we need to do is to configure our React application to be aware of our new AWS Amplify project. We can do this by referencing the auto-generated __aws-exports.js__ file that is now in our root folder.
 
 To configure the app, open __index.js__ and add the following code below the last import:
 
@@ -219,7 +219,7 @@ import { withAuthenticator } from 'aws-amplify-react-native'
 function App(props) {
   function signOut() {
     Auth.signOut()
-      .then(() => props.onStateChange('signedOut', null))
+      .then(() => props.onStateChange('signedOut'))
       .catch(err => console.log('err: ', err))
   }
   
@@ -546,7 +546,7 @@ Recreate this functionality in Hooks
 
 > For direction, check out the tutorial [here](https://medium.com/open-graphql/react-hooks-for-graphql-3fa8ebdd6c62)
 
-> For the solution to this challenge, view the [hooks](hooks.js) file. __Note__ that Expo does not yet support hooks.
+> For the solution to this challenge, view the [hooks](graphqlHooks.js) file.
 
 ## Adding a Serverless Function
 
@@ -736,6 +736,7 @@ Let's request some data from the API:
 ```js
 // src/App.js
 import React from 'react'
+import { View, Text } from 'react-native'
 import { API } from 'aws-amplify'
 import { withAuthenticator } from 'aws-amplify-react'
 
@@ -755,16 +756,16 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div>
+      <View>
         {
           this.state.coins.map((c, i) => (
-            <div key={i}>
-              <h2>{c.name}</h2>
-              <p>{c.price_usd}</p>
-            </div>
+            <View key={i}>
+              <Text>{c.name}</Text>
+              <Text>{c.price_usd}</Text>
+            </View>
           ))
         }
-      </div>
+      </View>
     )
   }
 }
