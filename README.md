@@ -242,14 +242,14 @@ The `withAuthenticator` component is a really easy way to get up and running wit
 
 Let's look at how we might create our own authentication flow.
 
-To get started, we would probably want to create input fields that would hold user input data in the state. For instance when signing up a new user, we would probably need 4 user inputs to capture the user's username, email, password, & phone number.
+To get started, we would probably want to create input fields that would hold user input data in the state. For instance when signing up a new user, we would probably need 3 user inputs to capture the user's username, email, & password.
 
 To do this, we could create some initial state for these values & create an event handler that we could attach to the form inputs:
 
 ```js
 // initial state
 state = {
-  username: '', password: '', email: '', phone_number: ''
+  username: '', password: '', email: ''
 }
 
 // event handler
@@ -274,9 +274,9 @@ import { Auth } from 'aws-amplify'
 
 // Class method to sign up a user
 signUp = async() => {
-  const { username, password, email, phone_number } = this.state
+  const { username, password, email } = this.state
   try {
-    await Auth.signUp({ username, password, attributes: { email, phone_number }})
+    await Auth.signUp({ username, password, attributes: { email }})
   } catch (err) {
     console.log('error signing up user...', err)
   }
