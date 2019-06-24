@@ -757,7 +757,7 @@ Let's request some data from the API:
 import React from 'react'
 import { View, Text } from 'react-native'
 import { API } from 'aws-amplify'
-import { withAuthenticator } from 'aws-amplify-react'
+import { withAuthenticator } from 'aws-amplify-react-native'
 
 class App extends React.Component {
   state = {
