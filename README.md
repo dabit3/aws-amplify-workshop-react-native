@@ -219,19 +219,21 @@ import { View, Text } from 'react-native'
 import { Auth } from 'aws-amplify'
 import { withAuthenticator } from 'aws-amplify-react-native'
 
-function App(props) {
-  function signOut() {
+class App extends React.Component {
+  signOut = () => {
     Auth.signOut()
-      .then(() => props.onStateChange('signedOut'))
+      .then(() => this.props.onStateChange('signedOut'))
       .catch(err => console.log('err: ', err))
   }
   
-  return (
-    <View style={{ paddingTop: 200}}>
-      <Text>Hello World</Text>
-      <Text onPress={signOut}>Sign Out</Text>
-    </View>
-  )
+  render() {
+    return (
+      <View style={{ paddingTop: 200}}>
+        <Text>Hello World</Text>
+        <Text onPress={this.signOut}>Sign Out</Text>
+      </View>
+    )
+  }
 }
 
 export default withAuthenticator(App)
@@ -578,6 +580,7 @@ amplify add function
 - Provide a friendly name for your resource to be used as a label for this category in the project: __basiclambda__
 - Provide the AWS Lambda function name: __basiclambda__
 - Choose the function template that you want to use: __Hello world function__
+- Do you want to access other resources created in this project from your Lambda function? __N__
 - Do you want to edit the local lambda function now? __Y__
 
 > This should open the function package located at __amplify/backend/function/basiclambda/src/index.js__.
