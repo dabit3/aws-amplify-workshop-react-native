@@ -146,6 +146,7 @@ function App() {
     </View>
   )
 }
+
 const styles = {
   restaurant: {
     padding: 15,
