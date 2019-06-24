@@ -646,6 +646,7 @@ amplify add function
 - Provide a friendly name for your resource to be used as a label for this category in the project: __cryptofunction__
 - Provide the AWS Lambda function name: __cryptofunction__
 - Choose the function template that you want to use: __Serverless express function (Integration with Amazon API Gateway)__
+- Do you want to access other resources created in this project from your Lambda function? __N__
 - Do you want to edit the local lambda function now? __Y__
 
 > This should open the function package located at __amplify/backend/function/cryptofunction/src/index.js__.
