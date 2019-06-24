@@ -608,7 +608,7 @@ amplify function invoke basiclambda
 ```
 
 - Provide the name of the script file that contains your handler function: __index.js__
--  Provide the name of the handler function to invoke: __handler__
+- Provide the name of the handler function to invoke: __handler__
 
 You'll notice the following output from your terminal:
 
@@ -665,8 +665,8 @@ const axios = require('axios')
 app.get('/coins', function(req, res) {
   let apiUrl = `https://api.coinlore.com/api/tickers?start=0&limit=10`
   
-  if (req.apiGateway && req.apiGateway.event.queryStringParameters) {
-    const { start = 0, limit = 10 } = req.apiGateway.event.queryStringParameters
+  if (req && req.query) {
+    const { start = 0, limit = 10 } = req.query
     apiUrl = `https://api.coinlore.com/api/tickers/?start=${start}&limit=${limit}`
   }
   axios.get(apiUrl)
@@ -732,7 +732,7 @@ amplify add api
 
 - Please select from one of the above mentioned services __REST__   
 - Provide a friendly name for your resource that will be used to label this category in the project: __cryptoapi__   
-- Provide a path, e.g. /items __/coins__   
+- Provide a path (e.g., /items): __/coins__   
 - Choose lambda source __Use a Lambda function already added in the current Amplify project__   
 - Choose the Lambda function to invoke by this path: __cryptofunction__   
 - Restrict API access __Y__
