@@ -2,11 +2,14 @@ import React, {
   useEffect, useReducer
 } from 'react'
 
+import {
+  Text, TextInput, View, Button
+} from 'react-native'
 import uuid from 'uuid/v4'
 import { API, graphqlOperation } from 'aws-amplify'
-import { listRestaurants} from './graphql/queries'
-import { createRestaurant } from './graphql/mutations'
-import { onCreateRestaurant } from './graphql/subscriptions'
+import { listRestaurants} from './src/graphql/queries'
+import { createRestaurant } from './src/graphql/mutations'
+import { onCreateRestaurant } from './src/graphql/subscriptions'
 
 const CLIENTID = uuid()
 
@@ -57,7 +60,7 @@ async function CreateRestaurant(state, dispatch) {
   dispatch({
     type: 'set',
     restaurants
-  })
+  })  
 
   try {
     await API.graphql(graphqlOperation(createRestaurant, {
@@ -107,38 +110,40 @@ function App() {
 
   console.log('state: ', state)
   return (
-    <div style={styles.container}>
-        <input
+    <View style={styles.container}>
+        <TextInput
           placeholder="name"
           style={{ height: 50, margin: 5, backgroundColor: "#ddd" }}
-          onChange={e => callDispatch(e.target.value, 'name', dispatch)}
+          onChangeText={value => callDispatch(value, 'name', dispatch)}
           value={state.name}
         />
-        <input
+        <TextInput
           placeholder="description"
           style={{ height: 50, margin: 5, backgroundColor: "#ddd" }}
-          onChange={e => callDispatch(e.target.value, 'description', dispatch)}
+          onChangeText={value => callDispatch(value, 'description', dispatch)}
           value={state.description}
         />
-        <input
+        <TextInput
           placeholder="city"
           style={{ height: 50, margin: 5, backgroundColor: "#ddd" }}
-          onChange={e => callDispatch(e.target.value, 'city', dispatch)}
+          onChangeText={value => callDispatch(value, 'city', dispatch)}
           value={state.city}
         />
-        <button onClick={() => CreateRestaurant(state, dispatch)}>
-          Create Restaurant
-        </button>
+        <Button
+          title='Create Restaurant'
+          onPress={() => CreateRestaurant(state, dispatch)} 
+        />
+
       {
         state.restaurants.map((restaurant, index) => (
-          <div key={index} style={styles.restaurant}>
-            <p>{restaurant.name}</p>
-            <p>{restaurant.description}</p>
-            <p>{restaurant.city}</p>
-          </div>
+          <View key={index} style={styles.restaurant}>
+            <Text>{restaurant.name}</Text>
+            <Text>{restaurant.description}</Text>
+            <Text>{restaurant.city}</Text>
+          </View>
         ))
       }
-    </div>
+    </View>
   )
 }
 const styles = {
