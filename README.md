@@ -216,6 +216,7 @@ To do so, let's make a few updates:
 ```js
 import React from 'react'
 import { View, Text } from 'react-native'
+import { Auth } from 'aws-amplify'
 import { withAuthenticator } from 'aws-amplify-react-native'
 
 function App(props) {
@@ -226,7 +227,7 @@ function App(props) {
   }
   
   return (
-    <View>
+    <View style={{ paddingTop: 200}}>
       <Text>Hello World</Text>
       <Text onPress={signOut}>Sign Out</Text>
     </View>
