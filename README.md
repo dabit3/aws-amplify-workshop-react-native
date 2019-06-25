@@ -48,11 +48,11 @@ Now change into the new app directory & install the AWS Amplify, AWS Amplify Rea
 ```bash
 cd RNAmplify
 
-npm install --save aws-amplify aws-amplify-react-native uuid
+npm install --save aws-amplify aws-amplify-react-native@2.1.12 uuid
 
 # or
 
-yarn add aws-amplify aws-amplify-react-native uuid
+yarn add aws-amplify aws-amplify-react-native@2.1.12 uuid
 ```
 
 Finally, if you're __not using Expo CLI__ you need to link two native libraries:
