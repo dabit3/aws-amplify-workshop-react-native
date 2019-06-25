@@ -180,16 +180,16 @@ export default withAuthenticator(App, {
 
 Now, we can run the app and see that an Authentication flow has been added in front of our App component. This flow gives users the ability to sign up & sign in.
 
+To refresh, you can use one of the following commands:
+
 ```sh
-react-native run-ios
+# iOS Simulator
+CMD + d # Opens debug menu
+CMD + r # Reloads the app
 
-# or if running android
-
-react-native run-android
-
-# or, if using expo
-
-expo start
+# Android Emulator
+CMD + m # Opens debug menu
+rr # Reloads the app
 ```
 
 ### Accessing User Data
