@@ -188,7 +188,7 @@ CMD + d # Opens debug menu
 CMD + r # Reloads the app
 
 # Android Emulator
-CMD + m # Opens debug menu
+CTRL + m # Opens debug menu
 rr # Reloads the app
 ```
 
