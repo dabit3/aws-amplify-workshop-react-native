@@ -27,12 +27,10 @@ In this workshop we'll learn how to build cloud-enabled mobile applications with
 
 To get started, we first need to create a new React Native project & change into the new directory using the [React Native CLI](https://facebook.github.io/react-native/docs/getting-started.html) (See __Building Projects With Native Code__ in the documentation) or [Expo CLI](https://facebook.github.io/react-native/docs/getting-started).
 
-If you already have the CLI installed, go ahead and create a new React Native app. If not, install the CLI & create a new app:
+We can use the React Native CLI to create a new app:
 
 ```bash
-npm install -g react-native-cli
-
-react-native init RNAmplify
+npx react-native init RNAmplify
 
 # or
 
@@ -43,36 +41,58 @@ expo init RNAmplify
 > Choose a template: blank
 ```
 
-Now change into the new app directory & install the AWS Amplify, AWS Amplify React Native, & React Native Vector Icon libraries:
+### If you're using the React Native CLI (you're not using Expo)
+
+Change into the app directory & install the dependencies
 
 ```bash
 cd RNAmplify
 
-npm install --save aws-amplify aws-amplify-react-native@2.1.12 uuid
+$ npm install --save aws-amplify aws-amplify-react-native uuid amazon-cognito-identity-js
 
 # or
 
-yarn add aws-amplify aws-amplify-react-native@2.1.12 uuid
+$ yarn add aws-amplify aws-amplify-react-native uuid amazon-cognito-identity-js
 ```
 
-Finally, if you're __not using Expo CLI__ you need to link two native libraries:
+Next, for iOS you need to install the pods:
 
 ```sh
-react-native link react-native-vector-icons
-react-native link amazon-cognito-identity-js
+$ cd ios
+
+$ pod install --repo-update
+
+$ cd ..
 ```
+
+### If you are using Expo
+
+Change into the app directory & install the dependencies:
+
+```bash
+$ cd RNAmplify
+
+$ npm install --save aws-amplify aws-amplify-react-native uuid
+
+# or
+
+$ yarn add aws-amplify aws-amplify-react-native uuid
+```
+
+### Running the app
+
 Next, run the app:
 
 ```sh
-react-native run-ios
+$ react-native run-ios
 
 # or if running android
 
-react-native run-android
+$ react-native run-android
 
 # or, if using expo
 
-expo start
+$ expo start
 ```
 
 ## Installing the CLI & Initializing a new AWS Amplify Project
@@ -82,13 +102,13 @@ expo start
 Next, we'll install the AWS Amplify CLI:
 
 ```bash
-npm install -g @aws-amplify/cli
+$ npm install -g @aws-amplify/cli
 ```
 
 Now we need to configure the CLI with our credentials:
 
 ```js
-amplify configure
+$ amplify configure
 ```
 
 > If you'd like to see a video walkthrough of this configuration process, click [here](https://www.youtube.com/watch?v=fWbM5DLh25U).
@@ -107,7 +127,7 @@ Here we'll walk through the `amplify configure` setup. Once you've signed in to 
 > Make sure to initialize this Amplify project in the root of your new React Native application
 
 ```bash
-amplify init
+$ amplify init
 ```
 
 - Enter a name for the project: __RNAmplify__
@@ -143,7 +163,7 @@ Now, our app is ready to start using our AWS services.
 To add authentication, we can use the following command:
 
 ```sh
-amplify add auth
+$ amplify add auth
 ```
 
 - Do you want to use default authentication and security configuration? __Default configuration__   
@@ -153,13 +173,13 @@ amplify add auth
 Now, we'll run the push command and the cloud resources will be created in our AWS account.
 
 ```bash
-amplify push
+$ amplify push
 ```
 
 To view the new Cognito authentication service at any time after its creation, run the following command:
 
 ```sh
-amplify console auth
+$ amplify console auth
 ```
 
 ### Using the withAuthenticator component
