@@ -27,26 +27,16 @@ In this workshop we'll learn how to build cloud-enabled mobile applications with
 
 To get started, we first need to create a new React Native project & change into the new directory using the [React Native CLI](https://facebook.github.io/react-native/docs/getting-started.html) (See __Building Projects With Native Code__ in the documentation) or [Expo CLI](https://facebook.github.io/react-native/docs/getting-started).
 
-We can use the React Native CLI to create a new app:
-
-```bash
-npx react-native init RNAmplify
-
-# or
-
-npm install -g expo-cli
-
-expo init RNAmplify
-
-> Choose a template: blank
-```
+We can use the React Native CLI or Expo to create a new app:
 
 ### If you're using the React Native CLI (you're not using Expo)
 
 Change into the app directory & install the dependencies
 
 ```bash
-cd RNAmplify
+$ npx react-native init RNAmplify
+
+$ cd RNAmplify
 
 $ npm install --save aws-amplify aws-amplify-react-native uuid amazon-cognito-identity-js
 
@@ -67,9 +57,11 @@ $ cd ..
 
 ### If you are using Expo
 
-Change into the app directory & install the dependencies:
-
 ```bash
+$ npx expo init RNAmplify
+
+> Choose a template: blank
+
 $ cd RNAmplify
 
 $ npm install --save aws-amplify aws-amplify-react-native uuid
