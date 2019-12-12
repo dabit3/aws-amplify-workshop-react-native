@@ -757,17 +757,29 @@ $ amplify add function
 - Do you want to access other resources created in this project from your Lambda function? __N__
 - Do you want to edit the local lambda function now? __Y__
 
-> This should open the function package located at __amplify/backend/function/cryptofunction/src/index.js__.
-
-Here, we'll add the following code & save the file:
+This should open the function package located at __amplify/backend/function/cryptofunction/src/index.js__. You'll notice in this file, that the event is being proxied into an express server:
 
 ```js
+exports.handler = (event, context) => {
+  console.log(`EVENT: ${JSON.stringify(event)}`);
+  awsServerlessExpress.proxy(server, event, context);
+};
+```
+
+Instead of updating the handler function itself, we'll instead update __amplify/backend/function/cryptofunction/src/app.js__ which has the actual server code we would like to be working with.
+
+Here, in __amplify/backend/function/cryptofunction/src/app.js__, we'll add the following code & save the file:
+
+```js
+__amplify/backend/function/cryptofunction/src/app.js__
+
+// you should see this code already there 👇:
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   next()
 });
-// below the last app.use() method, add the following code 👇
+// below the above code, add the following code 👇
 const axios = require('axios')
 
 app.get('/coins', function(req, res) {
@@ -791,11 +803,11 @@ app.get('/coins', function(req, res) {
 In the above function we've used the axios library to call another API. In order to use axios, we need be sure that it will be installed by updating the package.json for the new function:
 
 ```sh
-cd amplify/backend/function/cryptofunction/src
+$ cd amplify/backend/function/cryptofunction/src
 
-npm install axios
+$ npm install axios
 
-cd ../../../../../
+$ cd ../../../../../
 ```
 
 Next, change back into the root directory.
@@ -803,7 +815,11 @@ Next, change back into the root directory.
 Now we can test this function out:
 
 ```sh
-amplify function invoke cryptofunction
+$ amplify function invoke cryptofunction
+
+? Provide the name of the script file that contains your handler function: index.js
+? Provide the name of the handler function to invoke: handler
+? Provide the relative path to the event: event.json
 ```
 
 This will start up the node server. We can then make `curl` requests agains the endpoint:
