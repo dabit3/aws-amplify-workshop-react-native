@@ -484,41 +484,65 @@ To do so, we need to define the query, execute the query, store the data in our 
 
 ```js
 // App.js
+import React from 'react';
+import {
+  SafeAreaView,
+  View,
+  StyleSheet,
+  Text,
+} from 'react-native';
 
 // imports from Amplify library
+import { withAuthenticator } from 'aws-amplify-react-native'
 import { API, graphqlOperation } from 'aws-amplify'
 
-// import the query
+// import the GraphQL query
 import { listRestaurants } from './src/graphql/queries'
 
-// define some state to hold the data returned from the API
-state = {
-  restaurants: []
-}
-
-// execute the query in componentDidMount
-async componentDidMount() {
-  try {
-    const restaurantData = await API.graphql(graphqlOperation(listRestaurants))
-    console.log('restaurantData:', restaurantData)
-    this.setState({
-      restaurants: restaurantData.data.listRestaurants.items
-    })
-  } catch (err) {
-    console.log('error fetching restaurants...', err)
+class App extends React.Component {
+  // define some state to hold the data returned from the API
+  state = {
+    restaurants: []
+  }
+  // execute the query in componentDidMount
+  async componentDidMount() {
+    try {
+      const restaurantData = await API.graphql(graphqlOperation(listRestaurants))
+      console.log('restaurantData:', restaurantData)
+      this.setState({
+        restaurants: restaurantData.data.listRestaurants.items
+      })
+    } catch (err) {
+      console.log('error fetching restaurants...', err)
+    }
+  }
+  render() {
+    return (
+      <SafeAreaView style={styles.container}>
+        {
+          this.state.restaurants.map((restaurant, index) => (
+            <View key={index}>
+              <Text>{restaurant.name}</Text>
+              <Text>{restaurant.description}</Text>
+              <Text>{restaurant.city}</Text>
+            </View>
+          ))
+        }
+      </SafeAreaView>
+    )
   }
 }
 
-// add UI in render method to show data
-  {
-    this.state.restaurants.map((restaurant, index) => (
-      <View key={index}>
-        <Text>{restaurant.name}</Text>
-        <Text>{restaurant.description}</Text>
-        <Text>{restaurant.city}</Text>
-      </View>
-    ))
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
+})
+
+export default withAuthenticator(App, { includeGreetings: true });
+
 ```
 
 ## Performing mutations
