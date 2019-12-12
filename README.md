@@ -575,7 +575,7 @@ import uuid from 'uuid/v4'
 const CLIENTID = uuid()
 
 class App extends React.Component {
-  // define some state to hold the data returned from the API
+  // add additional state to hold form state as well as restaurant data returned from the API
   state = {
     name: '', description: '', city: '', restaurants: []
   }
