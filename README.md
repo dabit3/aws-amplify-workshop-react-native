@@ -161,7 +161,7 @@ $ amplify add auth
 
 - Do you want to use default authentication and security configuration? __Default configuration__   
 - How do you want users to be able to sign in when using your Cognito User Pool? __Username__ (keep default) 
-- What attributes are required for signing up? __Email__ (keep default)
+- Do you want to configure advanced settings? __No__
 
 Now, we'll run the push command and the cloud resources will be created in our AWS account.
 
