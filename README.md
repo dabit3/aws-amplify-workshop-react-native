@@ -363,7 +363,7 @@ signUp = async() => {
 To add a GraphQL API, we can use the following command:
 
 ```sh
-amplify add api
+$ amplify add api
 ```
 
 Answer the following questions
