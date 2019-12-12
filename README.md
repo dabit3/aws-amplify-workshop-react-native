@@ -841,6 +841,12 @@ If we'd like to test out the query parameters, we can update the __event.json__ 
 }
 ```
 
+Now, stop the server and invoke the function.
+
+```sh
+$ amplify function invoke cryptofunction
+```
+
 When we invoke the function these query parameters will be passed in & the http request will be made immediately.
 
 ## Adding a REST API
