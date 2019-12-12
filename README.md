@@ -311,7 +311,7 @@ export default withAuthenticator(App);
 
 ### Custom authentication strategies
 
-To view a final solution for a custom authentication strategy, check out the "AWS Amplify React Native Auth Starter" [here](https://github.com/aws-samples/aws-amplify-auth-starters/tree/react-native#aws-amplify-react-native-auth-starter).
+To view a final solution for a custom authentication strategy, check out the __AWS Amplify React Native Auth Starter__ [here](https://github.com/aws-samples/aws-amplify-auth-starters/tree/react-native#aws-amplify-react-native-auth-starter).
 
 > This section is an overview and is considered an advanced part of the workshop. If you are not comfortable writing a custom authentication flow, I would read through this section and use it as a reference in the future. If you'd like to jump to the next section, click [here](https://github.com/dabit3/aws-amplify-workshop-react-native#adding-a-graphql-api-with-aws-appsync).
 
