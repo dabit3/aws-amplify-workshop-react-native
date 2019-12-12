@@ -805,7 +805,7 @@ In the above function we've used the __axios__ library to call another API. In o
 ```sh
 $ cd amplify/backend/function/cryptofunction/src
 
-$ npm install axios
+$ npm install && npm install axios
 
 $ cd ../../../../../
 ```
