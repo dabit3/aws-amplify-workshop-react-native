@@ -1094,7 +1094,7 @@ Once we are happy with the new feature, we can then merge it back into our main 
 To create a new environment, we can run the `env` command:
 
 ```sh
-amplify env add
+$ amplify env add
 
 > Do you want to use an existing environment? No
 > Enter a name for the environment: apiupdate
@@ -1105,13 +1105,13 @@ amplify env add
 Now, the new environment has been initialize, & we can deploy the new environment using the `push` command:
 
 ```sh
-amplify push
+$ amplify push
 ```
 
 Now that the new environment has been created we can get a list of all available environments using the CLI:
 
 ```sh
-amplify env list
+$ amplify env list
 ```
 
 Let's update the GraphQL schema to add a new field. In __amplify/backend/api/RestaurantAPI/schema.graphql__  update the schema to the following:
@@ -1145,7 +1145,7 @@ type: String
 Now, we can run amplify push again to update the API:
 
 ```sh
-amplify push
+$ amplify push
 ```
 
 To test this out, we can go into the [AppSync Console](https://console.aws.amazon.com/appsync) & log into the API.
@@ -1195,13 +1195,13 @@ query listRestaurants {
 Now that we've created a new environment & tested it out, let's check out the main environment.
 
 ```sh
-amplify env checkout local
+$ amplify env checkout local
 ```
 
 Next, run the `status` command:
 
 ```sh
-amplify status
+$ amplify status
 ```
 
 You should now see an __Update__ operation:
@@ -1218,13 +1218,13 @@ Current Environment: local
 To deploy the changes, run the push command:
 
 ```sh
-amplify push
+$ amplify push
 ```
 
 Now, the changes have been deployed & we can delete the `apiupdate` environment:
 
 ```sh
-amplify env remove apiupdate
+$ amplify env remove apiupdate
 
 Do you also want to remove all the resources of the environment from the cloud? Y
 ```
@@ -1232,7 +1232,7 @@ Do you also want to remove all the resources of the environment from the cloud? 
 Now, we should be able to run the `list` command & see only our main environment:
 
 ```sh
-amplify env list
+$ amplify env list
 ```
 
 ## Removing Services
@@ -1240,15 +1240,15 @@ amplify env list
 If at any time, or at the end of this workshop, you would like to delete a service from your project & your account, you can do this by running the `amplify remove` command:
 
 ```sh
-amplify remove auth
+$ amplify remove auth
 
-amplify push
+$ amplify push
 ```
 
 If you are unsure of what services you have enabled at any time, you can run the `amplify status` command:
 
 ```sh
-amplify status
+$ amplify status
 ```
 
 `amplify status` will give you the list of resources that are currently enabled in your app.
@@ -1258,7 +1258,7 @@ amplify status
 To delete the entire project, run the `delete` command:
 
 ```sh
-amplify delete
+$ amplify delete
 ```
 
 
