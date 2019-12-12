@@ -594,18 +594,18 @@ class App extends React.Component {
   // this method calls the API and creates the mutation
   createRestaurant = async() => {
     const { name, description, city  } = this.state
+    // store the restaurant data in a variable
     const restaurant = {
       name, description, city, clientId: CLIENTID
     }
-    
+    // perform an optimistic response to update the UI immediately
     const restaurants = [...this.state.restaurants, restaurant]
     this.setState({
       restaurants,
       name: '', description: '', city: ''
       })
     try {
-      console.log('restaurant: ', restaurant)
-      console.log('createRestaurant: ', createRestaurant)
+      // make the API call
       await API.graphql(graphqlOperation(createRestaurant, {
         input: restaurant
       }))
