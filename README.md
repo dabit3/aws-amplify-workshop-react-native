@@ -370,7 +370,10 @@ Answer the following questions
 
 - Please select from one of the above mentioned services __GraphQL__   
 - Provide API name: __RestaurantAPI__   
-- Choose an authorization type for the API __API key__   
+- Choose the default authorization type for the API __API key__   
+- Enter a description for the API key __public__
+- After how many days from now the API key should expire __7__
+- Do you want to configure advanced settings for the GraphQL API __No__
 - Do you have an annotated GraphQL schema? __N__   
 - Do you want a guided schema creation? __Y__   
 - What best describes your project: __Single object with fields (e.g. “Todo” with ID, name, description)__   
