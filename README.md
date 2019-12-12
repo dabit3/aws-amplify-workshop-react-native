@@ -830,7 +830,7 @@ This will start up the node server. We can then make `curl` requests agains the 
 curl 'localhost:3000/coins'
 ```
 
-If we'd like to test out the query parameters, we can update the __event.json__ to add the following:
+If we'd like to test out the query parameters, we can update the __event.json__ to simulate an API gateway event by adding the following:
 
 ```json
 {
