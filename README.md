@@ -615,9 +615,9 @@ class App extends React.Component {
     }
   }
   // change form state then user types into input
-onChange = (key, value) => {
-  this.setState({ [key]: value })
-}
+  onChange = (key, value) => {
+    this.setState({ [key]: value })
+  }
   render() {
     return (
       <SafeAreaView style={styles.container}>
