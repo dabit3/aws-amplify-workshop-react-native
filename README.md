@@ -786,6 +786,7 @@ app.get('/coins', function(req, res) {
   let apiUrl = `https://api.coinlore.com/api/tickers?start=0&limit=10`
   
   if (req && req.query) {
+    // here we are checking to see if there are any query parameters, and if so appending them to the request
     const { start = 0, limit = 10 } = req.query
     apiUrl = `https://api.coinlore.com/api/tickers/?start=${start}&limit=${limit}`
   }
@@ -856,7 +857,7 @@ Now that we've created the cryptocurrency Lambda function let's add an API endpo
 To add the REST API, we can use the following command:
 
 ```sh
-amplify add api
+$ amplify add api
 ```
 
 > Answer the following questions
@@ -874,7 +875,9 @@ amplify add api
 Now the resources have been created & configured & we can push them to our account: 
 
 ```bash
-amplify push
+$ amplify push
+
+? Are you sure you want to continue? Y
 ```
 
 ### Interacting with the new API
@@ -884,9 +887,9 @@ Now that the API is created we can start sending requests to it & interacting wi
 Let's request some data from the API:
 
 ```js
-// src/App.js
+// App.js
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { API } from 'aws-amplify'
 import { withAuthenticator } from 'aws-amplify-react-native'
 
@@ -896,6 +899,7 @@ class App extends React.Component {
   }
   async componentDidMount() {
     try {
+      // to get all coins, do not send in a query parameter
       // const data = await API.get('cryptoapi', '/coins')
       const data = await API.get('cryptoapi', '/coins?limit=5&start=100')
       console.log('data from Lambda REST API: ', data)
@@ -909,8 +913,8 @@ class App extends React.Component {
       <View>
         {
           this.state.coins.map((c, i) => (
-            <View key={i}>
-              <Text>{c.name}</Text>
+            <View key={i} style={styles.row}>
+              <Text style={styles.name}>{c.name}</Text>
               <Text>{c.price_usd}</Text>
             </View>
           ))
@@ -919,6 +923,11 @@ class App extends React.Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  row: { padding: 10 },
+  name: { fontSize: 20, marginBottom: 4 },
+})
 
 export default withAuthenticator(App, { includeGreetings: true })
 ```
