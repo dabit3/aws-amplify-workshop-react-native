@@ -169,10 +169,10 @@ Now, we'll run the push command and the cloud resources will be created in our A
 $ amplify push
 ```
 
-To view the new Cognito authentication service at any time after its creation, run the following command:
+To view the AWS services any time after their creation, run the following command:
 
 ```sh
-$ amplify console auth
+$ amplify console
 ```
 
 ### Using the withAuthenticator component
@@ -982,6 +982,14 @@ recordEvent = () => {
 
 <Button onPress={this.recordEvent} title='Record Event' />
 ```
+
+To view the analytics in the console, run the `console` command:
+
+```sh
+$ amplify console
+```
+
+In the console, click on __Analytics__, then click on __View  in Pinpoint__. In the __Pinpoint__ console, click on __events__ and then enable filters.
 
 ## Working with Storage
 
