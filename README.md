@@ -143,6 +143,7 @@ The next thing we need to do is to configure our React Native application to be 
 To configure the app, open __index.js__ and add the following code below the last import:
 
 ```js
+// index.js
 import Amplify from 'aws-amplify'
 import config from './aws-exports'
 Amplify.configure(config)
@@ -179,6 +180,7 @@ $ amplify console auth
 To add authentication, we'll go into __App.js__ and first import the `withAuthenticator` HOC (Higher Order Component) from `aws-amplify-react`:
 
 ```js
+// App.js
 import { withAuthenticator } from 'aws-amplify-react-native'
 ```
 
@@ -209,6 +211,7 @@ rr # Reloads the app
 We can access the user's info now that they are signed in by calling `Auth.currentAuthenticatedUser()`.
 
 ```js
+// App.js
 import React from 'react';
 import {
   SafeAreaView,
@@ -259,6 +262,7 @@ Because `withAuthenticator` holds all of the state within the actual component, 
 To do so, let's make a few updates:
 
 ```js
+// App.js
 import React from 'react';
 import {
   SafeAreaView,
