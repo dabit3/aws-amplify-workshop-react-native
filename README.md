@@ -217,7 +217,7 @@ async componentDidMount() {
 }
 ```
 
-### Using the Auth class to sign out
+### Signing out with a custom Sign Out button
 
 We can also sign the user out using the `Auth` class & calling `Auth.signOut()`. This function returns a promise that is fulfilled after the user session has been ended & AsyncStorage is updated.
 
@@ -252,6 +252,8 @@ export default withAuthenticator(App)
 ```
 
 ### Custom authentication strategies
+
+> This section is an overview and is considered an advanced part of the workshop. If you are not comfortable writing a custom authentication flow, I would read through this section and use it as a reference in the future. If you'd like to jump to the next section, click [here](https://github.com/dabit3/aws-amplify-workshop-react-native#adding-a-graphql-api-with-aws-appsync).
 
 The `withAuthenticator` component is a really easy way to get up and running with authentication, but in a real-world application we probably want more control over how our form looks & functions.
 
@@ -328,30 +330,30 @@ type Restaurant @model {
 }
 ```
 
-Next, let's push the configuration to our account:
+To mock and test the API locally, you can run the mock command:
 
 ```bash
-amplify push
+$ amplify mock api
+
+? Choose the code generation language target: javascript
+? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.js
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Y
+? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
 ```
 
-- Do you want to generate code for your newly created GraphQL API: __Y__
-- Choose the code generation language target:  __Your target preference__
-- Enter the file name pattern of graphql queries, mutations and subscriptions: __(src/graphql/**/*.js)__
-- Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: __Y__
-- Enter maximum statement depth [increase from default if your schema is deeply nested]: __(2)__
+This should start an AppSync Mock endpoint:
 
-
-To view the new AWS AppSync API at any time after its creation, run the following command:
-
-```sh
-amplify console api
+```
+AppSync Mock endpoint is running at http://10.219.99.136:20002
 ```
 
-### Adding mutations from within the AWS AppSync Console
+Open the endpoint in the browser to use the GraphiQL Editor.
 
-In the AWS AppSync console, open your API & then click on Queries.
+From here, we can now test the API.
 
-Execute the following mutation to create a new restaurant in the API:
+### Adding mutations from within the GraphiQL Editor.
+
+In the GraphiQL editor, execute the following mutation to create a new restaurant in the API:
 
 ```graphql
 mutation createRestaurant {
@@ -418,7 +420,6 @@ Now that the GraphQL API is created we can begin interacting with it!
 The first thing we'll do is perform a query to fetch data from our API.
 
 To do so, we need to define the query, execute the query, store the data in our state, then list the items in our UI.
-
 
 ```js
 // App.js
@@ -533,40 +534,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-```
-
-### GraphQL Subscriptions
-
-Next, let's see how we can create a subscription to subscribe to changes of data in our API.
-
-To do so, we need to define the subscription, listen for the subscription, & update the state whenever a new piece of data comes in through the subscription.
-
-```js
-// import the subscription
-import { onCreateRestaurant } from './src/graphql/subscriptions'
-
-// define the subscription in the class
-subscription = {}
-
-// subscribe in componentDidMount
-componentDidMount() {
-  this.subscription = API.graphql(
-    graphqlOperation(onCreateRestaurant)
-  ).subscribe({
-      next: eventData => {
-        console.log('eventData', eventData)
-        const restaurant = eventData.value.data.onCreateRestaurant
-        if(CLIENTID === restaurant.clientId) return
-        const restaurants = [...this.state.restaurants, restaurant]
-        this.setState({ restaurants })
-      }
-  });
-}
-
-// remove the subscription in componentWillUnmount
-componentWillUnmount() {
-  this.subscription.unsubscribe()
-}
 ```
 
 ## Challenge
@@ -692,7 +659,7 @@ app.get('/coins', function(req, res) {
 })
 ```
 
-Next, we'll install axios in the function package:
+In the above function we've used the axios library to call another API. In order to use axios, we need be sure that it will be installed by updating the package.json for the new function:
 
 ```sh
 cd amplify/backend/function/cryptofunction/src
@@ -1120,3 +1087,38 @@ To delete the entire project, run the `delete` command:
 ```sh
 amplify delete
 ```
+
+
+<!-- ### GraphQL Subscriptions
+
+Next, let's see how we can create a subscription to subscribe to changes of data in our API.
+
+To do so, we need to define the subscription, listen for the subscription, & update the state whenever a new piece of data comes in through the subscription.
+
+```js
+// import the subscription
+import { onCreateRestaurant } from './src/graphql/subscriptions'
+
+// define the subscription in the class
+subscription = {}
+
+// subscribe in componentDidMount
+componentDidMount() {
+  this.subscription = API.graphql(
+    graphqlOperation(onCreateRestaurant)
+  ).subscribe({
+      next: eventData => {
+        console.log('eventData', eventData)
+        const restaurant = eventData.value.data.onCreateRestaurant
+        if(CLIENTID === restaurant.clientId) return
+        const restaurants = [...this.state.restaurants, restaurant]
+        this.setState({ restaurants })
+      }
+  });
+}
+
+// remove the subscription in componentWillUnmount
+componentWillUnmount() {
+  this.subscription.unsubscribe()
+}
+``` -->
