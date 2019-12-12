@@ -483,7 +483,6 @@ The first thing we'll do is perform a query to fetch data from our API.
 To do so, we need to define the query, execute the query, store the data in our state, then list the items in our UI.
 
 ```js
-// App.js
 import React from 'react';
 import {
   SafeAreaView,
@@ -521,10 +520,10 @@ class App extends React.Component {
       <SafeAreaView style={styles.container}>
         {
           this.state.restaurants.map((restaurant, index) => (
-            <View key={index}>
-              <Text>{restaurant.name}</Text>
-              <Text>{restaurant.description}</Text>
-              <Text>{restaurant.city}</Text>
+            <View key={index} style={styles.item}>
+              <Text style={styles.name}>{restaurant.name}</Text>
+              <Text style={styles.description}>{restaurant.description}</Text>
+              <Text style={styles.city}>{restaurant.city}</Text>
             </View>
           ))
         }
@@ -537,12 +536,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+  },
+  item: { padding: 10 },
+  name: { fontSize: 20 },
+  description: { fontWeight: '600', marginTop: 4, color: 'rgba(0, 0, 0, .5)' },
+  city: { marginTop: 4 }
 })
 
 export default withAuthenticator(App, { includeGreetings: true });
-
 ```
 
 ## Performing mutations
@@ -639,10 +640,10 @@ class App extends React.Component {
         <Button onPress={this.createRestaurant} title='Create Restaurant' />
         {
           this.state.restaurants.map((restaurant, index) => (
-            <View key={index} style={styles.row}>
-              <Text>{restaurant.name}</Text>
-              <Text>{restaurant.description}</Text>
-              <Text>{restaurant.city}</Text>
+            <View key={index} style={styles.item}>
+              <Text style={styles.name}>{restaurant.name}</Text>
+              <Text style={styles.description}>{restaurant.description}</Text>
+              <Text style={styles.city}>{restaurant.city}</Text>
             </View>
           ))
         }
@@ -656,13 +657,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  row: {
-    padding: 10
-  }
+  item: { padding: 10 },
+  name: { fontSize: 20 },
+  description: { fontWeight: '600', marginTop: 4, color: 'rgba(0, 0, 0, .5)' },
+  city: { marginTop: 4 }
 })
 
 export default withAuthenticator(App, { includeGreetings: true });
-
 ```
 
 ## Challenge
