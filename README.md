@@ -680,7 +680,7 @@ Recreate this functionality in Hooks
 To add a serverless function, we can run the following command:
 
 ```sh
-amplify add function
+$ amplify add function
 ```
 
 > Answer the following questions
@@ -696,7 +696,7 @@ amplify add function
 Edit the function to look like this, & then save the file.
 
 ```js
-exports.handler = function (event, context) {
+exports.handler = (event, context, callback) => {
   console.log('event: ', event)
   const body = {
     message: "Hello world!"
@@ -705,24 +705,24 @@ exports.handler = function (event, context) {
     statusCode: 200,
     body
   }
-  context.done(null, response);
+  callback(null, response)
 }
 ```
 
 Next, we can test this out by running:
 
 ```sh
-amplify function invoke basiclambda
+$ amplify function invoke basiclambda
 ```
 
 - Provide the name of the script file that contains your handler function: __index.js__
 - Provide the name of the handler function to invoke: __handler__
+- Provide the relative path to the event: __event.json__
 
 You'll notice the following output from your terminal:
 
 ```sh
-Running "lambda_invoke:default" (lambda_invoke) task
-
+Testing function locally
 event:  { key1: 'value1', key2: 'value2', key3: 'value3' }
 
 Success!  Message:
@@ -737,7 +737,7 @@ _Where is the event data coming from? It is coming from the values located in ev
 
 Feel free to test out the function by updating `event.json` with data of your own.
 
-### Adding a function running an express server
+### Adding a function running an express server and invoking it from an API call (http)
 
 Next, we'll build a function that will be running an [Express](https://expressjs.com/) server inside of it.
 
@@ -746,7 +746,7 @@ This new function will fetch data from a cryptocurrency API & return the values 
 To get started, we'll create a new function:
 
 ```sh
-amplify add function
+$ amplify add function
 ```
 
 > Answer the following questions
