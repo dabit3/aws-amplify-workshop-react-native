@@ -547,78 +547,122 @@ export default withAuthenticator(App, { includeGreetings: true });
 
 ## Performing mutations
 
- Now, let's look at how we can create mutations.
+ Now, let's look at how we can create mutations. The mutation we will be working with is `createRestaurant`.
 
 ```js
-// additional imports
+// App.js
+import React from 'react';
 import {
-  // ...existing imports
-  TextInput, Button
-} from 'react-native'
-import { graphqlOperation, API } from 'aws-amplify'
+  SafeAreaView,
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  Button
+} from 'react-native';
+
+// imports from Amplify library
+import { withAuthenticator } from 'aws-amplify-react-native'
+import { API, graphqlOperation } from 'aws-amplify'
+
+// import the GraphQL query
+import { listRestaurants } from './src/graphql/queries'
+// import the GraphQL mutation
+import { createRestaurant } from './src/graphql/mutations'
+
+// create client ID
 import uuid from 'uuid/v4'
 const CLIENTID = uuid()
 
-// import the mutation
-import { createRestaurant } from './src/graphql/mutations'
-
-// add name & description fields to initial state
-state = {
-  name: '', description: '', city: '', restaurants: []
-}
-
-createRestaurant = async() => {
-  const { name, description, city  } = this.state
-  const restaurant = {
-    name, description, city, clientId: CLIENTID
+class App extends React.Component {
+  // define some state to hold the data returned from the API
+  state = {
+    name: '', description: '', city: '', restaurants: []
   }
-  
-  const restaurants = [...this.state.restaurants, restaurant]
-  this.setState({
-    restaurants,
-    name: '', description: '', city: ''
-    })
-  try {
-    await API.graphql(graphqlOperation(createRestaurant, {
-      input: restaurant
-    }))
-    console.log('item created!')
-  } catch (err) {
-    console.log('error creating restaurant...', err)
+  // execute the query in componentDidMount
+  async componentDidMount() {
+    try {
+      const restaurantData = await API.graphql(graphqlOperation(listRestaurants))
+      console.log('restaurantData:', restaurantData)
+      this.setState({
+        restaurants: restaurantData.data.listRestaurants.items
+      })
+    } catch (err) {
+      console.log('error fetching restaurants...', err)
+    }
   }
-}
-
-// change state then user types into input
+  // this method calls the API and creates the mutation
+  createRestaurant = async() => {
+    const { name, description, city  } = this.state
+    const restaurant = {
+      name, description, city, clientId: CLIENTID
+    }
+    
+    const restaurants = [...this.state.restaurants, restaurant]
+    this.setState({
+      restaurants,
+      name: '', description: '', city: ''
+      })
+    try {
+      console.log('restaurant: ', restaurant)
+      console.log('createRestaurant: ', createRestaurant)
+      await API.graphql(graphqlOperation(createRestaurant, {
+        input: restaurant
+      }))
+      console.log('item created!')
+    } catch (err) {
+      console.log('error creating restaurant...', err)
+    }
+  }
+  // change form state then user types into input
 onChange = (key, value) => {
   this.setState({ [key]: value })
 }
+  render() {
+    return (
+      <SafeAreaView style={styles.container}>
+        <TextInput
+          style={{ height: 50, margin: 5, backgroundColor: "#ddd" }}
+          onChangeText={v => this.onChange('name', v)}
+          value={this.state.name} placeholder='name'
+        />
+        <TextInput
+          style={{ height: 50, margin: 5, backgroundColor: "#ddd" }}
+          onChangeText={v => this.onChange('description', v)}
+          value={this.state.description} placeholder='description'
+        />
+        <TextInput
+          style={{ height: 50, margin: 5, backgroundColor: "#ddd" }}
+          onChangeText={v => this.onChange('city', v)}
+          value={this.state.city} placeholder='city'
+        />
+        <Button onPress={this.createRestaurant} title='Create Restaurant' />
+        {
+          this.state.restaurants.map((restaurant, index) => (
+            <View key={index} style={styles.row}>
+              <Text>{restaurant.name}</Text>
+              <Text>{restaurant.description}</Text>
+              <Text>{restaurant.city}</Text>
+            </View>
+          ))
+        }
+      </SafeAreaView>
+    )
+  }
+}
 
-// add UI with event handlers to manage user input
-<TextInput
-  onChangeText={v => this.onChange('name', v)}
-  value={this.state.name}
-  style={{ height: 50, margin: 5, backgroundColor: "#ddd" }}
-/>
-<TextInput
-  style={{ height: 50, margin: 5, backgroundColor: "#ddd" }}
-  onChangeText={v => this.onChange('description', v)}
-  value={this.state.description}
-/>
-<TextInput
-  style={{ height: 50, margin: 5, backgroundColor: "#ddd" }}
-  onChangeText={v => this.onChange('city', v)}
-  value={this.state.city}
-/>
-<Button onPress={this.createRestaurant} title='Create Restaurant' />
-
-// update styles to remove alignItems property
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     justifyContent: 'center',
   },
-});
+  row: {
+    padding: 10
+  }
+})
+
+export default withAuthenticator(App, { includeGreetings: true });
+
 ```
 
 ## Challenge
