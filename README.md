@@ -209,12 +209,45 @@ rr # Reloads the app
 We can access the user's info now that they are signed in by calling `Auth.currentAuthenticatedUser()`.
 
 ```js
-import { Auth } from 'aws-amplify'
+import React from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+} from 'react-native';
 
-async componentDidMount() {
-  const user = await Auth.currentAuthenticatedUser()
-  console.log('user:', user)
+import { withAuthenticator } from 'aws-amplify-react-native'
+
+import { Auth } from 'aws-amplify' 
+
+class App extends React.Component {
+  async componentDidMount() {
+    const user = await Auth.currentAuthenticatedUser()
+    console.log('user:', user)
+  }
+  render() {
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.title}>Hello World</Text>
+      </SafeAreaView>
+    )
+  }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  title: {
+    fontSize: 28
+  }
+})
+
+export default withAuthenticator(App, {
+  includeGreetings: true
+})
 ```
 
 ### Signing out with a custom Sign Out button
@@ -226,29 +259,50 @@ Because `withAuthenticator` holds all of the state within the actual component, 
 To do so, let's make a few updates:
 
 ```js
-import React from 'react'
-import { View, Text } from 'react-native'
-import { Auth } from 'aws-amplify'
+import React from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+} from 'react-native';
+
 import { withAuthenticator } from 'aws-amplify-react-native'
 
+import { Auth } from 'aws-amplify' 
+
 class App extends React.Component {
+  async componentDidMount() {
+    const user = await Auth.currentAuthenticatedUser()
+    console.log('user:', user)
+  }
   signOut = () => {
     Auth.signOut()
       .then(() => this.props.onStateChange('signedOut'))
       .catch(err => console.log('err: ', err))
   }
-  
   render() {
     return (
-      <View style={{ paddingTop: 200}}>
-        <Text>Hello World</Text>
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.title}>Hello World</Text>
         <Text onPress={this.signOut}>Sign Out</Text>
-      </View>
+      </SafeAreaView>
     )
   }
 }
 
-export default withAuthenticator(App)
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  title: {
+    fontSize: 28
+  }
+})
+
+export default withAuthenticator(App);
+
 ```
 
 ### Custom authentication strategies
