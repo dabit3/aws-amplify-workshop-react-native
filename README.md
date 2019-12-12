@@ -771,7 +771,7 @@ Instead of updating the handler function itself, we'll instead update __amplify/
 Here, in __amplify/backend/function/cryptofunction/src/app.js__, we'll add the following code & save the file:
 
 ```js
-__amplify/backend/function/cryptofunction/src/app.js__
+// amplify/backend/function/cryptofunction/src/app.js
 
 // you should see this code already there 👇:
 app.use(function(req, res, next) {
