@@ -800,7 +800,7 @@ app.get('/coins', function(req, res) {
 })
 ```
 
-In the above function we've used the axios library to call another API. In order to use axios, we need be sure that it will be installed by updating the package.json for the new function:
+In the above function we've used the __axios__ library to call another API. In order to use __axios__, we need be sure that it will be installed by updating the __package.json__ for the new function:
 
 ```sh
 $ cd amplify/backend/function/cryptofunction/src
