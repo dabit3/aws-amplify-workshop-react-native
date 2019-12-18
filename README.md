@@ -797,8 +797,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   next()
 });
-// below the above code, add the following code 👇
-// (be sure not to delete any other code from this file)
+// below the above code, add the following code 👇 (be sure not to delete any other code from this file)
 const axios = require('axios')
 
 app.get('/coins', function(req, res) {
