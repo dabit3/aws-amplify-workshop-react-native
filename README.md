@@ -38,11 +38,11 @@ $ npx react-native init RNAmplify
 
 $ cd RNAmplify
 
-$ npm install --save aws-amplify aws-amplify-react-native uuid amazon-cognito-identity-js
+$ npm install --save aws-amplify aws-amplify-react-native uuid amazon-cognito-identity-js @react-native-community/netinfo
 
 # or
 
-$ yarn add aws-amplify aws-amplify-react-native uuid amazon-cognito-identity-js
+$ yarn add aws-amplify aws-amplify-react-native uuid amazon-cognito-identity-js @react-native-community/netinfo
 ```
 
 Next, for iOS you need to install the pods:
@@ -64,7 +64,7 @@ $ npx expo init RNAmplify
 
 $ cd RNAmplify
 
-$ npm install --save aws-amplify aws-amplify-react-native uuid
+$ npm install --save aws-amplify aws-amplify-react-native uuid @react-native-community/netinfo
 
 # or
 
