@@ -407,15 +407,23 @@ type Restaurant @model {
 }
 ```
 
-To mock and test the API locally, you can run the mock command:
+Next, deploy the API:
+
+```sh
+amplify push
+
+? Are you sure you want to continue? Yes
+? Do you want to generate code for your newly created GraphQL API: Yes
+? Choose the code generation language target: javascript
+? Enter the file name pattern of graphql queries, mutations and subscriptions: ./graphql/**/*.js
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Yes
+? Enter maximum statement depth [increase from default if your schema is deeply nested] (2)
+```
+
+### Optional - To mock and test the API locally, you can run the mock command:
 
 ```bash
 $ amplify mock api
-
-? Choose the code generation language target: javascript
-? Enter the file name pattern of graphql queries, mutations and subscriptions: ./graphql/**/*.js
-? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Y
-? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
 ```
 
 This should start an AppSync Mock endpoint:
