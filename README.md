@@ -15,13 +15,13 @@ In this workshop we'll learn how to build cloud-enabled mobile applications with
 - [Multiple Serverless Environments](https://github.com/dabit3/aws-amplify-workshop-react-native#multiple-serverless-environments)
 - [Removing / Deleting Services](https://github.com/dabit3/aws-amplify-workshop-react-native#removing-services)
 
-## Redeeming the AWS Credit   
+<!-- ## Redeeming the AWS Credit   
 
 1. Visit the [AWS Console](https://console.aws.amazon.com/console).
 2. In the top right corner, click on __My Account__.
 ![](dashboard1.jpg)
 3. In the left menu, click __Credits__.
-![](dashboard2.jpg)
+![](dashboard2.jpg) -->
 
 ## Getting Started - Creating the React Native Application
 
@@ -131,7 +131,7 @@ $ amplify init
 - Distribution Directory Path: __/__
 - Build Command: __npm run-script build__   
 - Start Command: __npm run-script start__   
-- Do you want to use an AWS profile? __Y__
+- Select the authentication method you want to use: __AWS profile__
 - Please choose the profile you want to use: __amplify-workshop-user__
 
 Now, the AWS Amplify CLI has iniatilized a new project & you will see a couple of new files & folders: __amplify__ & __aws-exports.js__. These files hold your project configuration.
@@ -414,7 +414,7 @@ To mock and test the API locally, you can run the mock command:
 $ amplify mock api
 
 ? Choose the code generation language target: javascript
-? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.js
+? Enter the file name pattern of graphql queries, mutations and subscriptions: ./graphql/**/*.js
 ? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Y
 ? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
 ```
@@ -513,7 +513,7 @@ import { withAuthenticator } from 'aws-amplify-react-native'
 import { API, graphqlOperation } from 'aws-amplify'
 
 // import the GraphQL query
-import { listRestaurants } from './src/graphql/queries'
+import { listRestaurants } from './graphql/queries'
 
 class App extends React.Component {
   // define some state to hold the data returned from the API
@@ -584,12 +584,12 @@ import { withAuthenticator } from 'aws-amplify-react-native'
 import { API, graphqlOperation } from 'aws-amplify'
 
 // import the GraphQL query
-import { listRestaurants } from './src/graphql/queries'
+import { listRestaurants } from './graphql/queries'
 // import the GraphQL mutation
-import { createRestaurant } from './src/graphql/mutations'
+import { createRestaurant } from './graphql/mutations'
 
 // create client ID
-import uuid from 'uuid/v4'
+import { v4 as uuid } from 'uuid'
 const CLIENTID = uuid()
 
 class App extends React.Component {
