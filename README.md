@@ -706,22 +706,21 @@ To add a serverless function, we can run the following command:
 
 ```sh
 $ amplify add function
+
+? Select which capability you want to add: Lambda function
+? Provide an AWS Lambda function nam: basiclambda
+? Choose the runtime that you want to use: NodeJS
+? Choose the function template that you want to use: Hello World
+? Do you want to configure advanced settings? N
+? Do you want to edit the local lambda function now? Y
 ```
-
-> Answer the following questions
-
-- Provide a friendly name for your resource to be used as a label for this category in the project: __basiclambda__
-- Provide the AWS Lambda function name: __basiclambda__
-- Choose the function template that you want to use: __Hello world function__
-- Do you want to access other resources created in this project from your Lambda function? __N__
-- Do you want to edit the local lambda function now? __Y__
 
 > This should open the function package located at __amplify/backend/function/basiclambda/src/index.js__.
 
 Edit the function to look like this, & then save the file.
 
 ```js
-exports.handler = (event, context, callback) => {
+exports.handler = async (event, contex) => {
   console.log('event: ', event)
   const body = {
     message: "Hello world!"
@@ -730,32 +729,32 @@ exports.handler = (event, context, callback) => {
     statusCode: 200,
     body
   }
-  callback(null, response)
+  return response
 }
 ```
 
 Next, we can test this out by running:
 
 ```sh
-$ amplify function invoke basiclambda
-```
+$ amplify mock function basiclambda
 
-- Provide the name of the script file that contains your handler function: __index.js__
-- Provide the name of the handler function to invoke: __handler__
-- Provide the relative path to the event: __event.json__
+? Provide the path to the event JSON object: src/event.json
+```
 
 You'll notice the following output from your terminal:
 
 ```sh
-Testing function locally
+Ensuring latest function changes are built...
+Starting execution...
 event:  { key1: 'value1', key2: 'value2', key3: 'value3' }
-
-Success!  Message:
-------------------
-{"statusCode":200,"body":{"message":"Hello world!"}}
-
-Done.
-Done running invoke function.
+Result:
+{
+  "statusCode": 200,
+  "body": {
+    "message": "Hello world!"
+  }
+}
+Finished execution.
 ```
 
 _Where is the event data coming from? It is coming from the values located in event.json in the function folder (__amplify/backend/function/basiclambda/src/event.json__). If you update the values here, you can simulate data coming arguments the event._
@@ -772,15 +771,14 @@ To get started, we'll create a new function:
 
 ```sh
 $ amplify add function
+
+? Select which capability you want to add: Lambda function
+? Provide an AWS Lambda function name: cryptofunction
+? Choose the runtime that you want to use: NodeJS
+? Choose the function template that you want to use: Serverless ExpressJS
+? Do you want to configure advanced settings? No
+? Do you want to edit the local lambda function now? Y
 ```
-
-> Answer the following questions
-
-- Provide a friendly name for your resource to be used as a label for this category in the project: __cryptofunction__
-- Provide the AWS Lambda function name: __cryptofunction__
-- Choose the function template that you want to use: __Serverless express function (Integration with Amazon API Gateway)__
-- Do you want to access other resources created in this project from your Lambda function? __N__
-- Do you want to edit the local lambda function now? __Y__
 
 This should open the function package located at __amplify/backend/function/cryptofunction/src/index.js__. You'll notice in this file, that the event is being proxied into an express server:
 
@@ -831,49 +829,12 @@ In the above function we've used the __axios__ library to call another API. In o
 ```sh
 $ cd amplify/backend/function/cryptofunction/src
 
-$ npm install && npm install axios
+$ npm install axios
 
 $ cd ../../../../../
 ```
 
 Next, change back into the root directory.
-
-Now we can test this function out:
-
-```sh
-$ amplify function invoke cryptofunction
-
-? Provide the name of the script file that contains your handler function: index.js
-? Provide the name of the handler function to invoke: handler
-? Provide the relative path to the event: event.json
-```
-
-This will start up the node server. We can then make `curl` requests agains the endpoint:
-
-```sh
-curl 'localhost:3000/coins'
-```
-
-If we'd like to test out the query parameters, we can update the __event.json__ to simulate an API gateway event by adding the following:
-
-```json
-{
-    "httpMethod": "GET",
-    "path": "/coins",
-    "queryStringParameters": {
-        "start": "0",
-        "limit": "1"
-    }
-}
-```
-
-Now, stop the server and invoke the function.
-
-```sh
-$ amplify function invoke cryptofunction
-```
-
-When we invoke the function these query parameters will be passed in & the http request will be made immediately.
 
 ## Adding a REST API
 
@@ -883,19 +844,17 @@ To add the REST API, we can use the following command:
 
 ```sh
 $ amplify add api
+
+? Please select from one of the above mentioned services: REST
+? Provide a friendly name for your resource that will be used to label this category in the project: cryptoapi   
+? Provide a path (e.g., /items): /coins   
+? Choose lambda source: Use a Lambda function already added in the current Amplify project   
+? Choose the Lambda function to invoke by this path: cryptofunction   
+? Restrict API access: Y
+? Who should have access? Authenticated users only
+? What kind of access do you want for Authenticated users: read/create/update/delete
+? Do you want to add another path? (y/N) N  
 ```
-
-> Answer the following questions
-
-- Please select from one of the above mentioned services __REST__   
-- Provide a friendly name for your resource that will be used to label this category in the project: __cryptoapi__   
-- Provide a path (e.g., /items): __/coins__   
-- Choose lambda source __Use a Lambda function already added in the current Amplify project__   
-- Choose the Lambda function to invoke by this path: __cryptofunction__   
-- Restrict API access __Y__
-- Who should have access? __Authenticated users only__
-- What kind of access do you want for Authenticated users __read/create/update/delete__
-- Do you want to add another path? (y/N) __N__     
 
 Now the resources have been created & configured & we can push them to our account: 
 
